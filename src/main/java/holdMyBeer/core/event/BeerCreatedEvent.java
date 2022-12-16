@@ -1,4 +1,4 @@
-package core.event;
+package holdMyBeer.core.event;
 
 public class BeerCreatedEvent {
 }

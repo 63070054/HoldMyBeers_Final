@@ -1,4 +1,4 @@
-package command.rest;
+package holdMyBeer.command.rest;
 
 import lombok.Data;
 

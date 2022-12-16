@@ -1,4 +1,4 @@
-package command;
+package holdMyBeer.command;
 
 public class BeerAggregate {
 }

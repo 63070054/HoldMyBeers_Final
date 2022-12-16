@@ -1,4 +1,4 @@
-package service;
+package holdMyBeer.service;
 
 import com.proto.prime.*;
 import io.grpc.stub.StreamObserver;
