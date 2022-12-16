@@ -1,4 +1,4 @@
-package core.data;
+package holdMyBeer.core.data;
 
 public class BeerRepository {
 }

@@ -1,4 +1,4 @@
-package query.rest;
+package holdMyBeer.query.rest;
 
 public class BeerRestModel {
 }

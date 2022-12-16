@@ -1,4 +1,4 @@
-package core;
+package holdMyBeer.core;
 
 public class BeerEntity {
 }

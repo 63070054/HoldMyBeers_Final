@@ -1,4 +1,6 @@
-package query;
+package holdMyBeer.query;
+
 
 public class BeerQueryHandler {
+
 }
