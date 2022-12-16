@@ -12,6 +12,9 @@ import java.io.Serializable;
 @Table(name = "Beer")
 @Data
 public class BeerEntity implements Serializable {
+
+    private static final long serialVersionUID = -4703102532579738583L;
+
     @Id
     @Column(unique = true)
     private String BeerId;
