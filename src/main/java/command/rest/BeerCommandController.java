@@ -1,11 +1,11 @@
 package command.rest;
 
-import service.BeerServiceImpl;
+import service.BeerService;
 
 public class BeerCommandController {
-    private final BeerServiceImpl beerService;
+    private final BeerService beerService;
 
-    public BeerCommandController(BeerServiceImpl beerService) {
+    public BeerCommandController(BeerService beerService) {
         this.beerService = beerService;
     }
 
