@@ -9,10 +9,15 @@ public class BeerQueryController {
     @Autowired
     private BeerService beerService;
 
+    // Read All Beer
+    @GetMapping()
+    public BeerRestModel getAllBeer() {
+        return beerService.getBeers();
+    }
     // Read Beer By id
     @GetMapping("/{id}")
     public BeerRestModel getBeer(@PathVariable Long id) {
-        return beerService.getBeerById(id);
+        return beerService.getBeerByBeerId(id);
     }
 
     // Read Beer By name

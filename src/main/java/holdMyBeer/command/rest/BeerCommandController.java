@@ -15,9 +15,8 @@ public class BeerCommandController {
 //        BeerRestModel beerRestModel = new BeerRestModel();
 //        beerRestModel.setBeerName(request.getBeerName());
 //        return beerRestModel;
-        return beerService.createBeer(beerRestModel)
+        return beerService.createBeer(beerRestModel);
     }
-
     // Update Beer
     @PutMapping("/{id}")
     public BeerRestModel updateBeer(@PathVariable Long id, @RequestBody BeerRestModel beerRestModel) {
