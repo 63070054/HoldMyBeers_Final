@@ -5,8 +5,8 @@ option java_multiple_files = true;
 service BeerService {
   rpc SignInDecomposition(SignInRequest) returns (SignInResponse) {};
   rpc CreateBeerDecomposition(CreateBeerRequest) returns (CreateBeerResponse) {};
-  rpc QueryBeersDecomposition(QueryBeersRequest) returns (QueryBeerByIdResponse) {};
-  rpc QueryBeerByIdDecomposition(QueryBeerByIdRequest) returns (stream QueryBeerByIdResponse) {};
+  rpc QueryBeersDecomposition(QueryBeersRequest) returns (stream QueryBeersResponse) {};
+  rpc QueryBeerByIdDecomposition(QueryBeerByIdRequest) returns (QueryBeerByIdResponse) {};
   rpc EditBeerDecomposition(EditBeerRequest) returns (EditBeerResponse) {};
   rpc DeleteBeerDecomposition(DeleteBeerRequest) returns (DeleteBeerResponse) {};
   rpc AddBeerToFavorite(AddBeerToFavoriteRequest) returns (AddBeerToFavoriteResponse) {};
@@ -42,7 +42,7 @@ message QueryBeersRequest {
 }
 
 message QueryBeersResponse {
-
+  bool isSuccess = 1;
 }
 
 message EditBeerRequest {

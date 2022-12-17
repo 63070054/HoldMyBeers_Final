@@ -1,13 +1,15 @@
 package holdMyBeer.database.event;
 
+import holdMyBeer.database.data.Ingredient;
 import lombok.Data;
+import java.util.List;
 
 @Data
 public class BeerCreatedEvent {
-    private String beerId;
+    private String _id;
     private String name;
     private String description;
-    private ArrayIndexOutOfBoundsException ingredients;
-    private ArrayIndexOutOfBoundsException methods;
+    private List<Ingredient> ingredients;
+    private String[] methods;
 
 }

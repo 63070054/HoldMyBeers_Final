@@ -1,7 +1,7 @@
 package holdMyBeer.database.repository;
 
 
-import holdMyBeer.database.Beer;
+import holdMyBeer.database.pojo.Beer;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
