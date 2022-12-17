@@ -1,4 +1,4 @@
-package holdMyBeer.core.event;
+package holdMyBeer.database.event;
 
 import lombok.Data;
 

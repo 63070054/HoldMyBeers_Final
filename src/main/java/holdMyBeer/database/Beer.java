@@ -1,4 +1,4 @@
-package holdMyBeer.core;
+package holdMyBeer.database;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -8,16 +8,9 @@ import lombok.Data;
 import java.io.Serializable;
 
 
-@Entity
-@Table(name = "Beer")
-@Data
-public class BeerEntity implements Serializable {
-
-    private static final long serialVersionUID = -4703102532579738583L;
+public class Beer {
 
     @Id
-    @Column(unique = true)
-    private String BeerId;
     private String name;
     private String description;
     private ArrayIndexOutOfBoundsException ingredients;

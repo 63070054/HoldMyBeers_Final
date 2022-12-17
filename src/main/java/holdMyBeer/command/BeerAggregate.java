@@ -1,7 +1,7 @@
 package holdMyBeer.command;
 
 import holdMyBeer.command.rest.BeerCommandController;
-import holdMyBeer.core.event.BeerCreatedEvent;
+import holdMyBeer.database.event.BeerCreatedEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;

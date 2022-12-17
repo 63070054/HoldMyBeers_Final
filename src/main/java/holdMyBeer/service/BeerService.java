@@ -1,9 +1,15 @@
 package holdMyBeer.service;
 
 import com.proto.prime.*;
+import holdMyBeer.database.repository.BeerRepository;
 import io.grpc.stub.StreamObserver;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
+
+    @Autowired
+    private BeerRepository beerRepository;
+
     @Override
     public void createBeerDecomposition(CreateBeerRequest request, StreamObserver<CreateBeerResponse> responseObserver) {
 
@@ -11,22 +17,22 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
 
     @Override
     public void signInDecomposition(SignInRequest request, StreamObserver<SignInResponse> responseObserver) {
-        super.signInDecomposition(request, responseObserver);
+
     }
 
     @Override
     public void queryBeersDecomposition(QueryBeersRequest request, StreamObserver<QueryBeerByIdResponse> responseObserver) {
-        super.queryBeersDecomposition(request, responseObserver);
+
     }
 
     @Override
     public void addBeerToFavorite(AddBeerToFavoriteRequest request, StreamObserver<AddBeerToFavoriteResponse> responseObserver) {
-        super.addBeerToFavorite(request, responseObserver);
+
     }
 
     @Override
     public void removeBeerToFavorite(RemoveBeerToFavoriteRequest request, StreamObserver<RemoveBeerToFavoriteResponse> responseObserver) {
-        super.removeBeerToFavorite(request, responseObserver);
+
     }
 
     @Override
