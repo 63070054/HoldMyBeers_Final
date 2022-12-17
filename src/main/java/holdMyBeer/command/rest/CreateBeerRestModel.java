@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class CreateBeerRestModel {
-    private final String BeerId;
+    private final String beerId;
     private final String name;
     private final String description;
     private ArrayIndexOutOfBoundsException ingredients;

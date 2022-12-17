@@ -14,10 +14,10 @@ public class BeerAggregate {
 
     @AggregateIdentifier
     private String beerId;
-    private String beername;
-    private String beerDescription;
-    private ArrayIndexOutOfBoundsException beerIngredients;
-    private ArrayIndexOutOfBoundsException beerMethods;
+    private String name;
+    private String description;
+    private ArrayIndexOutOfBoundsException ingredients;
+    private ArrayIndexOutOfBoundsException methods;
 
     public BeerAggregate(){
 
@@ -33,10 +33,10 @@ public class BeerAggregate {
    @EventSourcingHandler
     public void on(BeerCreatedEvent beerCreatedEvent){
         this.beerId = beerCreatedEvent.getBeerId();
-        this.beername = beerCreatedEvent.getName();
-        this.beerDescription = beerCreatedEvent.getDescription();
-        this.beerIngredients = beerCreatedEvent.getIngredients();
-        this.beerMethods = beerCreatedEvent.getMethods();
+        this.name = beerCreatedEvent.getName();
+        this.description = beerCreatedEvent.getDescription();
+        this.ingredients = beerCreatedEvent.getIngredients();
+        this.methods = beerCreatedEvent.getMethods();
 
    }
 }

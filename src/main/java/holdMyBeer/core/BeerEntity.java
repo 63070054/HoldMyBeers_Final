@@ -17,7 +17,7 @@ public class BeerEntity implements Serializable {
 
     @Id
     @Column(unique = true)
-    private String BeerId;
+    private String beerId;
     private String name;
     private String description;
     private ArrayIndexOutOfBoundsException ingredients;

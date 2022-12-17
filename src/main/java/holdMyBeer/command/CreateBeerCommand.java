@@ -8,7 +8,7 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 @Data
 public class CreateBeerCommand {
     @TargetAggregateIdentifier
-    private final String BeerId;
+    private final String beerId;
     private final String name;
     private final String description;
     private ArrayIndexOutOfBoundsException ingredients;
