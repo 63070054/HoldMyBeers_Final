@@ -1,4 +1,9 @@
 package holdMyBeer.core.data;
 
-public class BeerRepository {
+
+import holdMyBeer.core.BeerEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface BeerRepository extends JpaRepository<BeerEntity, String> {
+    BeerEntity findByBeerId(String BeerId);
 }
