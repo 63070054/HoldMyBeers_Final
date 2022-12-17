@@ -1,23 +1,32 @@
 package holdMyBeer.query.rest;
 
-
-import holdMyBeer.service.BeerService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/beers")
 public class BeerQueryController {
-
+    @Autowired
     private BeerService beerService;
 
-    @GetMapping("/{BeerId}")
-    public String createBeer(){
-        return "sussec";
+    // Read All Beer
+    @GetMapping()
+    public BeerRestModel getAllBeer() {
+        return beerService.getBeers();
     }
+    // Read Beer By id
+    @GetMapping("/{id}")
+    public BeerRestModel getBeer(@PathVariable Long id) {
+        return beerService.getBeerByBeerId(id);
+    }
+
+    // Read Beer By name
+    @GetMapping("/{name}")
+    public List<Beer> getBeer(@PathVariable String  name) {
+        return beerService.getBeerByName(name);
+    }
+
+
 
 }
 

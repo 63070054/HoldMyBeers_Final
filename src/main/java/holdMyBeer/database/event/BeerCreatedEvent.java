@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class BeerCreatedEvent {
-    private String BeerId;
+    private String beerId;
     private String name;
     private String description;
     private ArrayIndexOutOfBoundsException ingredients;
