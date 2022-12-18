@@ -17,11 +17,12 @@ import java.util.UUID;
 @RequestMapping("/beers")
 public class BeerCommandController {
 
-    private  CommandGateway commandGateway;
+//    private  CommandGateway commandGateway;
     private final AuthenticationServiceGrpc.AuthenticationServiceBlockingStub authenticationServiceBlockingStub;
     private final BeerServiceGrpc.BeerServiceBlockingStub beerServiceBlockingStub;
     private final FavoriteBeerServiceGrpc.FavoriteBeerServiceBlockingStub favoriteBeerServiceBlockingStub;
-    public BeerCommandController(CommandGateway commandGateway, ManagedChannel channel) {
+//    public BeerCommandController(CommandGateway commandGateway, ManagedChannel channel) {
+    public BeerCommandController(ManagedChannel channel) {
         this.authenticationServiceBlockingStub = AuthenticationServiceGrpc.newBlockingStub(channel);
         this.beerServiceBlockingStub = BeerServiceGrpc.newBlockingStub(channel);
         this.favoriteBeerServiceBlockingStub = FavoriteBeerServiceGrpc.newBlockingStub(channel);
@@ -39,29 +40,37 @@ public class BeerCommandController {
                     .addAllMethods(Arrays.asList(beer.getMethods()))
                     .build();
 
-            CreateBeerCommand command = CreateBeerCommand.builder().(UUID.randomUUID().toString()).name(beer.getName()).description(beer.getDescription()).ingredients(beer.getIngredients()).methods(beer.getMethods()).build();
-
-            try{
-                commandGateway.sendAndWait(command);
-            }catch (Exception e){
-              e.getLocalizedMessage();
-            }
+//            CreateBeerCommand command = CreateBeerCommand.builder()._id(UUID.randomUUID().toString()).name(beer.getName()).description(beer.getDescription()).ingredients(beer.getIngredients()).methods(beer.getMethods()).build();
+//
+//            try{
+//                commandGateway.sendAndWait(command);
+//            }catch (Exception e){
+//              e.getLocalizedMessage();
+//            }
             return beerServiceBlockingStub.createBeerDecomposition(request).getIsSuccess();
-
-
 
 
     }
     // Update Beer
     @PutMapping()
-    public void updateBeer(@RequestBody UpdateBeerRestModel beerRestModel) {
-//        return beerService.updateBeer(id, beerRestModel);
+    public boolean updateBeer(@RequestBody UpdateBeerRestModel beer) {
+        EditBeerRequest request = EditBeerRequest.newBuilder()
+                .setLocalId(beer.get_id())
+                .setName(beer.getName())
+                .setDescription(beer.getDescription())
+                .addAllIngredients(beer.getIngredients())
+                .addAllMethods(Arrays.asList(beer.getMethods()))
+                .build();
+        return beerServiceBlockingStub.editBeerDecomposition(request).getIsSuccess();
     }
 
     // Delete Beer
     @DeleteMapping()
-    public void deleteBeer(@RequestBody DeleteBeerRestModel beerRestModel) {
-//        beerService.deleteQuery(id);
+    public boolean deleteBeer(@RequestBody DeleteBeerRestModel beer) {
+        DeleteBeerRequest request = DeleteBeerRequest.newBuilder()
+                .setId(beer.get_id())
+                .build();
+        return beerServiceBlockingStub.deleteBeerDecomposition(request).getIsSuccess();
     }
 
 

@@ -1,6 +1,7 @@
 package holdMyBeer.query.controller;
 
 import com.proto.prime.BeerServiceGrpc;
+import com.proto.prime.QueryBeerByIdRequest;
 import com.proto.prime.QueryBeersRequest;
 import com.proto.prime.QueryBeersResponse;
 import io.grpc.ManagedChannel;
@@ -32,8 +33,10 @@ public class BeerQueryController {
     }
     // Read Beer By id
     @GetMapping("/{id}")
-    public void queryBeerByIdDecomposition(@PathVariable String id) {
-//        return beerService.queryBeerByIdDecomposition(id);
+    public boolean queryBeerByIdDecomposition(@PathVariable String id) {
+        QueryBeerByIdRequest beersRequest = QueryBeerByIdRequest.newBuilder().setId(id).build();
+        boolean isSuccess = blockingStub.queryBeerByIdDecomposition(beersRequest).getIsSuccess();
+        return isSuccess;
     }
 
 

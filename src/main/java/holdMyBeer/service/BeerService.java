@@ -44,18 +44,15 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
     @Override
     public void queryBeersDecomposition(QueryBeersRequest request, StreamObserver<QueryBeersResponse> responseObserver) {
         try {
-
             List<Beer> beers = beerRepository.findAll();
 
             for(Beer beer : beers) {
                 System.out.println("BeerName : " + beer.getName());
             }
-
             QueryBeersResponse response =QueryBeersResponse.newBuilder()
                     .setIsSuccess(true)
                     .build();
             responseObserver.onNext(response);
-
         } catch(Exception e){
             QueryBeersResponse response =QueryBeersResponse.newBuilder()
                     .setIsSuccess(false)
@@ -93,7 +90,7 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
             ProtocolStringList stringList = request.getMethodsList();
             Object[] objectArray = stringList.toArray();
             String[] methods = Arrays.copyOf(objectArray, objectArray.length, String[].class);
-            Beer beer = new Beer(request.getName(), request.getDescription(), request.getIngredientsList(), methods);
+            Beer beer = new Beer(request.getLocalId(),request.getName(), request.getDescription(), request.getIngredientsList(), methods);
             beerRepository.save(beer);
             EditBeerResponse response = EditBeerResponse.newBuilder()
                     .setIsSuccess(true)

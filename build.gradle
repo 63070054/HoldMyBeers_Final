@@ -50,6 +50,8 @@ dependencies {
     runtimeOnly group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.21.10'
     implementation group: 'com.googlecode.protobuf-java-format', name: 'protobuf-java-format', version: '1.4'
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
+// https://mvnrepository.com/artifact/org.springframework.amqp/spring-rabbit
+    implementation group: 'org.springframework.amqp', name: 'spring-rabbit', version: '3.0.0'
 
 }
 

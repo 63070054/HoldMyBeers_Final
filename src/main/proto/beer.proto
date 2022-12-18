@@ -44,10 +44,11 @@ message QueryBeersResponse {
 }
 
 message EditBeerRequest {
-  string name = 1;
-  string description = 2;
-  repeated Ingredient ingredients = 3;
-  repeated string methods = 4;
+  string local_id = 1;
+  string name = 2;
+  string description = 3;
+  repeated Ingredient ingredients = 4;
+  repeated string methods = 5;
 }
 
 message EditBeerResponse {
