@@ -12,13 +12,21 @@ public class FavoriteBeerService {
     @Autowired
     private BeerRepository beerRepository;
 
-    @Override
-    public void addBeerToFavorite(AddBeerToFavoriteRequest request, StreamObserver<AddBeerToFavoriteResponse> responseObserver) {
-
-    }
-
-    @Override
-    public void removeBeerToFavorite(RemoveBeerToFavoriteRequest request, StreamObserver<RemoveBeerToFavoriteResponse> responseObserver) {
-
-    }
+//    @Override
+//    public void addBeerToFavorite(AddBeerToFavoriteRequest request, StreamObserver<AddBeerToFavoriteResponse> responseObserver) {
+//        try{
+//
+//        }catch (Exception e){
+//
+//        }
+//    }
+//
+//    @Override
+//    public void removeBeerToFavorite(RemoveBeerToFavoriteRequest request, StreamObserver<RemoveBeerToFavoriteResponse> responseObserver) {
+//        try{
+//
+//        }catch (Exception e){
+//
+//        }
+//    }
 }

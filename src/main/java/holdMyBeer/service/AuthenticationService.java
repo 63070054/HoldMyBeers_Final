@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class AuthenticationService {
     @Autowired
     private BeerRepository beerRepository;
-    @Override
-    public void signInDecomposition(SignInRequest request, StreamObserver<SignInResponse> responseObserver) {
-
-    }
+//    @Override
+//    public void signInDecomposition(SignInRequest request, StreamObserver<SignInResponse> responseObserver) {
+//
+//    }
 }
