@@ -39,7 +39,7 @@ public class BeerCommandController {
                     .addAllMethods(Arrays.asList(beer.getMethods()))
                     .build();
 
-            CreateBeerCommand command = CreateBeerCommand.builder()._id(UUID.randomUUID().toString()).name(beer.getName()).description(beer.getDescription()).ingredients(beer.getIngredients()).methods(beer.getMethods()).build();
+            CreateBeerCommand command = CreateBeerCommand.builder().(UUID.randomUUID().toString()).name(beer.getName()).description(beer.getDescription()).ingredients(beer.getIngredients()).methods(beer.getMethods()).build();
 
             try{
                 commandGateway.sendAndWait(command);
