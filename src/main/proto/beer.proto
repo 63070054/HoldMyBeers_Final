@@ -3,30 +3,28 @@ option java_package = "com.proto.prime";
 option java_multiple_files = true;
 
 service BeerService {
-  rpc SignInDecomposition(SignInRequest) returns (SignInResponse) {};
   rpc CreateBeerDecomposition(CreateBeerRequest) returns (CreateBeerResponse) {};
   rpc QueryBeersDecomposition(QueryBeersRequest) returns (stream QueryBeersResponse) {};
   rpc QueryBeerByIdDecomposition(QueryBeerByIdRequest) returns (QueryBeerByIdResponse) {};
   rpc EditBeerDecomposition(EditBeerRequest) returns (EditBeerResponse) {};
   rpc DeleteBeerDecomposition(DeleteBeerRequest) returns (DeleteBeerResponse) {};
-  rpc AddBeerToFavorite(AddBeerToFavoriteRequest) returns (AddBeerToFavoriteResponse) {};
-  rpc RemoveBeerToFavorite(RemoveBeerToFavoriteRequest) returns (RemoveBeerToFavoriteResponse) {};
 }
 
-message SignInRequest {
-
-}
-
-message SignInResponse {
-
+message Ingredient {
+    string name = 1;
+    int32 quantity = 2;
+    string unit = 3;
 }
 
 message CreateBeerRequest {
-
+  string name = 1;
+  string description = 2;
+  repeated Ingredient ingredients = 3;
+  repeated string methods = 4;
 }
 
 message CreateBeerResponse {
-
+  bool isSuccess = 1;
 }
 
 message QueryBeerByIdRequest {
@@ -58,21 +56,5 @@ message DeleteBeerRequest {
 }
 
 message DeleteBeerResponse {
-
-}
-
-message AddBeerToFavoriteRequest {
-
-}
-
-message AddBeerToFavoriteResponse {
-
-}
-
-message RemoveBeerToFavoriteRequest {
-
-}
-
-message RemoveBeerToFavoriteResponse {
 
 }

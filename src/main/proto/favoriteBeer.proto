@@ -1,0 +1,24 @@
+syntax = "proto3";
+option java_package = "com.proto.prime";
+option java_multiple_files = true;
+
+service FavoriteBeerService {
+  rpc AddBeerToFavorite(AddBeerToFavoriteRequest) returns (AddBeerToFavoriteResponse) {};
+  rpc RemoveBeerToFavorite(RemoveBeerToFavoriteRequest) returns (RemoveBeerToFavoriteResponse) {};
+}
+
+message AddBeerToFavoriteRequest {
+
+}
+
+message AddBeerToFavoriteResponse {
+
+}
+
+message RemoveBeerToFavoriteRequest {
+
+}
+
+message RemoveBeerToFavoriteResponse {
+
+}
