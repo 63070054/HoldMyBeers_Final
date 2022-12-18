@@ -1,4 +1,4 @@
-package holdMyBeer.query.rest;
+package holdMyBeer.query.controller;
 
 import com.proto.prime.BeerServiceGrpc;
 import com.proto.prime.QueryBeersRequest;
@@ -25,7 +25,8 @@ public class BeerQueryController {
     public boolean queryBeersDecomposition() {
 
         QueryBeersRequest beersRequest = QueryBeersRequest.newBuilder().build();
-        return blockingStub.queryBeersDecomposition(beersRequest).next().getIsSuccess();
+        boolean isSuccess = blockingStub.queryBeersDecomposition(beersRequest).next().getIsSuccess();
+        return isSuccess;
 
 
     }

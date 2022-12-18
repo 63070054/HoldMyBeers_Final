@@ -1,6 +1,6 @@
 package holdMyBeer.command;
 
-import holdMyBeer.database.data.Ingredient;
+import com.proto.prime.Ingredient;
 import lombok.Builder;
 import lombok.Data;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;

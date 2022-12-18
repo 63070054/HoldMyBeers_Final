@@ -1,18 +1,12 @@
-package holdMyBeer.database.pojo;
-import com.proto.prime.Ingredient;
-import jakarta.persistence.Id;
-import lombok.Data;
-import org.springframework.data.mongodb.core.mapping.Document;
+package holdMyBeer.command.rest;
 
-import java.io.Serializable;
+import com.proto.prime.Ingredient;
+import lombok.Data;
+
 import java.util.List;
 
-
 @Data
-@Document("Beers")
-public class Beer implements Serializable {
-
-    @Id
+public class UpdateBeerRestModel {
     private String _id;
     private String name;
     private String description;
@@ -58,21 +52,4 @@ public class Beer implements Serializable {
     public void setMethods(String[] methods) {
         this.methods = methods;
     }
-
-    public Beer(String _id, String name, String description, List<Ingredient> ingredients, String[] methods) {
-        this._id = _id;
-        this.name = name;
-        this.description = description;
-        this.ingredients = ingredients;
-        this.methods = methods;
-    }
-
-    public Beer(String name, String description, List<Ingredient> ingredients, String[] methods) {
-        this.name = name;
-        this.description = description;
-        this.ingredients = ingredients;
-        this.methods = methods;
-    }
-
-    public Beer() {};
 }

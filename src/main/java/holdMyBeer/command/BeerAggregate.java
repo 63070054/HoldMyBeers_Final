@@ -1,7 +1,7 @@
 package holdMyBeer.command;
 
-import holdMyBeer.command.rest.BeerCommandController;
-import holdMyBeer.database.data.Ingredient;
+import com.proto.prime.Ingredient;
+import holdMyBeer.command.controller.BeerCommandController;
 import holdMyBeer.database.event.BeerCreatedEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;

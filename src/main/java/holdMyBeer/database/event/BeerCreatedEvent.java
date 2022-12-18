@@ -1,6 +1,6 @@
 package holdMyBeer.database.event;
 
-import holdMyBeer.database.data.Ingredient;
+import com.proto.prime.Ingredient;
 import lombok.Data;
 import java.util.List;
 

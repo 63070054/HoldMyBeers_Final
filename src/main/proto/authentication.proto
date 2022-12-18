@@ -1,0 +1,15 @@
+syntax = "proto3";
+option java_package = "com.proto.prime";
+option java_multiple_files = true;
+
+service AuthenticationService {
+  rpc SignInDecomposition(SignInRequest) returns (SignInResponse) {};
+}
+
+message SignInRequest {
+
+}
+
+message SignInResponse {
+
+}
