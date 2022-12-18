@@ -33,13 +33,4 @@ public class BeerAggregate {
         AggregateLifecycle.apply(beerCreatedEvent);
    }
 
-   @EventSourcingHandler
-    public void on(BeerCreatedEvent beerCreatedEvent){
-      this._id = beerCreatedEvent.get_id();
-       this.name = beerCreatedEvent.getName();
-       this.description = beerCreatedEvent.getDescription();
-        this.ingredients = beerCreatedEvent.getIngredients();
-        this.methods = beerCreatedEvent.getMethods();
-
-   }
 }

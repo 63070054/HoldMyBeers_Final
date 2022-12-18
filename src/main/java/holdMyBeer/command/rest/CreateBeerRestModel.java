@@ -7,6 +7,9 @@ import java.util.List;
 
 @Data
 public class CreateBeerRestModel {
+
+
+    private String idrandom;
     private String name;
     private String description;
     private List<Ingredient> ingredients;
@@ -42,5 +45,13 @@ public class CreateBeerRestModel {
 
     public void setMethods(String[] methods) {
         this.methods = methods;
+    }
+
+    public String getIdrandom() {
+        return idrandom;
+    }
+
+    public void setIdrandom(String idrandom) {
+        this.idrandom = idrandom;
     }
 }
