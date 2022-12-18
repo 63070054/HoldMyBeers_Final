@@ -62,18 +62,15 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
     @Override
     public void queryBeersDecomposition(QueryBeersRequest request, StreamObserver<QueryBeersResponse> responseObserver) {
         try {
-
             List<Beer> beers = beerRepository.findAll();
 
             for(Beer beer : beers) {
                 System.out.println("BeerName : " + beer.getName());
             }
-
             QueryBeersResponse response =QueryBeersResponse.newBuilder()
                     .setIsSuccess(true)
                     .build();
             responseObserver.onNext(response);
-
         } catch(Exception e){
             QueryBeersResponse response =QueryBeersResponse.newBuilder()
                     .setIsSuccess(false)
@@ -89,41 +86,58 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
 
     @Override
     public void queryBeerByIdDecomposition(QueryBeerByIdRequest request, StreamObserver<QueryBeerByIdResponse> responseObserver) {
-//        try{
-//            Beer beer = beerRepository.findBeerByID(request.getID);
-//            System.out.println("BearName: "+ beer.getName());
-//        }catch (Exception e){
-//            QueryBeerByIdResponse response = QueryBeerByIdResponse.newBuilder()
-//                    .setIsSuccess(false)
-//                    .build();
-//            responseObserver.onNext(response);
-//        }
-//        responseObserver.onCompleted();
+        try{
+            Beer beer = beerRepository.findBeerByID(request.getId());
+            System.out.println("BearName: "+ beer.getName());
+            QueryBeerByIdResponse response = QueryBeerByIdResponse.newBuilder()
+                    .setIsSuccess(true)
+                    .build();
+            responseObserver.onNext(response);
+        }catch (Exception e){
+            QueryBeerByIdResponse response = QueryBeerByIdResponse.newBuilder()
+                    .setIsSuccess(false)
+                    .build();
+            responseObserver.onNext(response);
+        }
+        responseObserver.onCompleted();
     }
 
     @Override
     public void editBeerDecomposition(EditBeerRequest request, StreamObserver<EditBeerResponse> responseObserver) {
-//        try{
-//            beerRepository.save(request);
-//        }catch (Exception e){
-//            EditBeerResponse response = EditBeerResponse.newBuilder()
-//                    .setIsSuccess(false)
-//                    .build();
-//            responseObserver.onNext(response);
-//        }
-//        responseObserver.onCompleted();
+        try{
+            ProtocolStringList stringList = request.getMethodsList();
+            Object[] objectArray = stringList.toArray();
+            String[] methods = Arrays.copyOf(objectArray, objectArray.length, String[].class);
+            Beer beer = new Beer(request.getLocalId(),request.getName(), request.getDescription(), request.getIngredientsList(), methods);
+            beerRepository.save(beer);
+            EditBeerResponse response = EditBeerResponse.newBuilder()
+                    .setIsSuccess(true)
+                    .build();
+            responseObserver.onNext(response);
+        }catch (Exception e){
+            EditBeerResponse response = EditBeerResponse.newBuilder()
+                    .setIsSuccess(false)
+                    .build();
+            responseObserver.onNext(response);
+        }
+        responseObserver.onCompleted();
     }
 
     @Override
     public void deleteBeerDecomposition(DeleteBeerRequest request, StreamObserver<DeleteBeerResponse> responseObserver) {
-//        try{
-//            beerRepository.delete(request);
-//        }catch (Exception e){
-//            DeleteBeerResponse response = DeleteBeerResponse.newBuilder()
-//                    .setIsSuccess(false)
-//                    .build();
-//            responseObserver.onNext(response);
-//        }
-//        responseObserver.onCompleted();
+        try{
+            Beer beer = beerRepository.findBeerByID(request.getId());
+            beerRepository.delete(beer);
+            DeleteBeerResponse response = DeleteBeerResponse.newBuilder()
+                    .setIsSuccess(true)
+                    .build();
+            responseObserver.onNext(response);
+        }catch (Exception e){
+            DeleteBeerResponse response = DeleteBeerResponse.newBuilder()
+                    .setIsSuccess(false)
+                    .build();
+            responseObserver.onNext(response);
+        }
+        responseObserver.onCompleted();
     }
 }
