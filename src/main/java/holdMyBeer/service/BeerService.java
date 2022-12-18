@@ -19,21 +19,17 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
 
     @Override
     public void createBeerDecomposition(CreateBeerRequest request, StreamObserver<CreateBeerResponse> responseObserver) {
-//        try{
-//            beerRepository.insert(request);
-//        }catch (Exception e){
-//            CreateBeerResponse response = CreateBeerResponse.newBuilder()
-//                    .setIsSuccess(false)
-//                    .build();
-//            responseObserver.onNext(response);
-//        }
-//        responseObserver.onCompleted();
+        try{
+            beerRepository.insert(request);
+        }catch (Exception e){
+            CreateBeerResponse response = CreateBeerResponse.newBuilder()
+                    .setIsSuccess(false)
+                    .build();
+            responseObserver.onNext(response);
+        }
+        responseObserver.onCompleted();
     }
 
-    @Override
-    public void signInDecomposition(SignInRequest request, StreamObserver<SignInResponse> responseObserver) {
-
-    }
 
     @Override
     public void queryBeersDecomposition(QueryBeersRequest request, StreamObserver<QueryBeersResponse> responseObserver) {
@@ -57,28 +53,19 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
 
     }
 
-    @Override
-    public void addBeerToFavorite(AddBeerToFavoriteRequest request, StreamObserver<AddBeerToFavoriteResponse> responseObserver) {
-
-    }
-
-    @Override
-    public void removeBeerToFavorite(RemoveBeerToFavoriteRequest request, StreamObserver<RemoveBeerToFavoriteResponse> responseObserver) {
-
-    }
 
     @Override
     public void queryBeerByIdDecomposition(QueryBeerByIdRequest request, StreamObserver<QueryBeerByIdResponse> responseObserver) {
-//        try{
-//            Beer beer = beerRepository.findBeerByID(request);
-//            System.out.println("BearName: "+ beer.getName());
-//        }catch (Exception e){
-//            QueryBeerByIdResponse response = QueryBeerByIdResponse.newBuilder()
-//                    .setIsSuccess(false)
-//                    .build();
-//            responseObserver.onNext(response);
-//        }
-//        responseObserver.onCompleted();
+        try{
+            Beer beer = beerRepository.findBeerByID(request.getID);
+            System.out.println("BearName: "+ beer.getName());
+        }catch (Exception e){
+            QueryBeerByIdResponse response = QueryBeerByIdResponse.newBuilder()
+                    .setIsSuccess(false)
+                    .build();
+            responseObserver.onNext(response);
+        }
+        responseObserver.onCompleted();
     }
 
     @Override
