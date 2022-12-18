@@ -1,9 +1,8 @@
 package holdMyBeer.query;
 
 import holdMyBeer.database.repository.BeerRepository;
-import holdMyBeer.database.event.BeerCreatedEvent;
+import holdMyBeer.database.event.CreateBeerEvent;
 import org.axonframework.eventhandling.EventHandler;
-import org.springframework.beans.BeanUtils;
 
 public class BeerEventHandler {
     private final BeerRepository beerRepository;
@@ -13,7 +12,7 @@ public class BeerEventHandler {
     }
 
     @EventHandler
-    public void on(BeerCreatedEvent event){
+    public void on(CreateBeerEvent event){
 //        Beer beer = new Beer();
 //        BeanUtils.copyProperties(event, beer);
 //        beerRepository.save(beer);

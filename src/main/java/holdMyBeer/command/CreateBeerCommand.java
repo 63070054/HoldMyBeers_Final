@@ -11,9 +11,10 @@ import java.util.List;
 @Data
 public class CreateBeerCommand {
     @TargetAggregateIdentifier
-    private String _id;
-    private String name;
-    private String description;
-    private List<Ingredient> ingredients;
-    private String[] methods;
+    private final String _id;
+    private final String name;
+    private final String description;
+    private final List<Ingredient> ingredients;
+    private final String[] methods;
+
 }

@@ -1,14 +1,13 @@
 package holdMyBeer.service;
 
-import com.proto.prime.AddBeerToFavoriteRequest;
-import com.proto.prime.AddBeerToFavoriteResponse;
-import com.proto.prime.RemoveBeerToFavoriteRequest;
-import com.proto.prime.RemoveBeerToFavoriteResponse;
+import com.proto.prime.*;
 import holdMyBeer.database.repository.BeerRepository;
 import io.grpc.stub.StreamObserver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class FavoriteBeerService {
+@Service
+public class FavoriteBeerService extends FavoriteBeerServiceGrpc.FavoriteBeerServiceImplBase {
     @Autowired
     private BeerRepository beerRepository;
 

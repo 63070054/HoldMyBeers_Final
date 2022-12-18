@@ -4,7 +4,6 @@ import com.proto.prime.*;
 import holdMyBeer.command.rest.CreateBeerRestModel;
 import holdMyBeer.command.rest.DeleteBeerRestModel;
 import holdMyBeer.command.rest.UpdateBeerRestModel;
-import holdMyBeer.service.AuthenticationService;
 import io.grpc.ManagedChannel;
 import org.springframework.web.bind.annotation.*;
 

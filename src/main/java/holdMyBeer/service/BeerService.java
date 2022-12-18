@@ -2,6 +2,7 @@ package holdMyBeer.service;
 
 import com.google.protobuf.ProtocolStringList;
 import com.proto.prime.*;
+import holdMyBeer.command.CreateBeerCommand;
 import holdMyBeer.database.pojo.Beer;
 import holdMyBeer.database.repository.BeerRepository;
 import io.grpc.stub.StreamObserver;
@@ -11,22 +12,39 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
 public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
     @Autowired
     private BeerRepository beerRepository;
+//    @Autowired
+//    private CommandGateway commandGateway;
 
 
     @Override
     public void createBeerDecomposition(CreateBeerRequest request, StreamObserver<CreateBeerResponse> responseObserver) {
         try{
+
             ProtocolStringList stringList = request.getMethodsList();
             Object[] objectArray = stringList.toArray();
             String[] methods = Arrays.copyOf(objectArray, objectArray.length, String[].class);
+
+//            CreateBeerCommand command = CreateBeerCommand.builder()
+//                    ._id(UUID.randomUUID().toString())
+//                    .name(request.getName())
+//                    .description(request.getDescription())
+//                    .ingredients(request.getIngredientsList())
+//                    .methods(methods)
+//                    .build();
+
+//            String result = commandGateway.sendAndWait(command);
+//            System.out.println(result);
+
             Beer beer = new Beer(request.getName(), request.getDescription(), request.getIngredientsList(), methods);
             beerRepository.insert(beer);
+
             CreateBeerResponse response = CreateBeerResponse.newBuilder()
                     .setIsSuccess(true)
                     .build();

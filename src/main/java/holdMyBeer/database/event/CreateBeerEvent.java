@@ -5,11 +5,12 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class BeerCreatedEvent {
+public class CreateBeerEvent {
     private String _id;
     private String name;
     private String description;
     private List<Ingredient> ingredients;
     private String[] methods;
+
 
 }
