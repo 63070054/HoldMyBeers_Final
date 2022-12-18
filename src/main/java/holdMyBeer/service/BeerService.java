@@ -74,6 +74,10 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
         try{
             Beer beer = beerRepository.findBeerByID(request.getId());
             System.out.println("BearName: "+ beer.getName());
+            QueryBeerByIdResponse response = QueryBeerByIdResponse.newBuilder()
+                    .setIsSuccess(true)
+                    .build();
+            responseObserver.onNext(response);
         }catch (Exception e){
             QueryBeerByIdResponse response = QueryBeerByIdResponse.newBuilder()
                     .setIsSuccess(false)
