@@ -1,5 +1,6 @@
 package holdMyBeer.command.rest;
 
+import holdMyBeer.command.CreateBeerCommand;
 import holdMyBeer.query.rest.BeerRestModel;
 import holdMyBeer.service.BeerService;
 import org.springframework.beans.factory.annotation.Autowired;

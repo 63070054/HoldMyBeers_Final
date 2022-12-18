@@ -10,7 +10,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import java.io.IOException;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-public class HoldMyBeersApplication {
+public class  HoldMyBeersApplication {
 
     public static void main(String[] args) {
        try {

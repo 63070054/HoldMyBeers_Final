@@ -1,6 +1,7 @@
 package holdMyBeer.command;
 
 import holdMyBeer.command.rest.BeerCommandController;
+import holdMyBeer.database.data.Ingredient;
 import holdMyBeer.database.event.BeerCreatedEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -9,15 +10,17 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 
+import java.util.List;
+
 @Aggregate
 public class BeerAggregate {
 
     @AggregateIdentifier
-    private String beerId;
+    private String _id;
     private String name;
     private String description;
-    private ArrayIndexOutOfBoundsException ingredients;
-    private ArrayIndexOutOfBoundsException methods;
+    private List<Ingredient>  ingredients;
+    private String[] methods;
 
     public BeerAggregate(){
 
