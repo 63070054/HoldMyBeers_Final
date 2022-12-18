@@ -1,7 +1,8 @@
 package holdMyBeer.query;
 
+import holdMyBeer.command.rest.CreateBeerRestModel;
 import holdMyBeer.database.repository.BeerRepository;
-import holdMyBeer.query.rest.BeerRestModel;
+//import holdMyBeer.query.rest.BeerRestModel;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ public class BeerQueryHandler {
     private BeerRepository beerRepository;
 
     @QueryHandler
-    List<BeerRestModel> findBeers(BeerQueryHandler query){
-        List<BeerRestModel> beerRest = new ArrayList<>();
+    List<CreateBeerRestModel> findBeers(BeerQueryHandler query){
+        List<CreateBeerRestModel> beerRest = new ArrayList<>();
 //        List<BeerEntity> storedBeer = beerRepository.findAll();
 //
 //        for (BeerEntity beerEntity : storedBeer){

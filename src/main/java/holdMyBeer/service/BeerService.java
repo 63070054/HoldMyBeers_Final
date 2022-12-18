@@ -71,16 +71,16 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
 
     @Override
     public void queryBeerByIdDecomposition(QueryBeerByIdRequest request, StreamObserver<QueryBeerByIdResponse> responseObserver) {
-//        try{
-//            Beer beer = beerRepository.findBeerByID(request.getID);
-//            System.out.println("BearName: "+ beer.getName());
-//        }catch (Exception e){
-//            QueryBeerByIdResponse response = QueryBeerByIdResponse.newBuilder()
-//                    .setIsSuccess(false)
-//                    .build();
-//            responseObserver.onNext(response);
-//        }
-//        responseObserver.onCompleted();
+        try{
+            Beer beer = beerRepository.findBeerByID(request.getId());
+            System.out.println("BearName: "+ beer.getName());
+        }catch (Exception e){
+            QueryBeerByIdResponse response = QueryBeerByIdResponse.newBuilder()
+                    .setIsSuccess(false)
+                    .build();
+            responseObserver.onNext(response);
+        }
+        responseObserver.onCompleted();
     }
 
     @Override

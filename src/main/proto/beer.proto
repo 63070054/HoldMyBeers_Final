@@ -28,11 +28,11 @@ message CreateBeerResponse {
 }
 
 message QueryBeerByIdRequest {
-
+  string id = 1;
 }
 
 message QueryBeerByIdResponse {
-
+  bool isSuccess = 1;
 }
 
 message QueryBeersRequest {
@@ -48,7 +48,7 @@ message EditBeerRequest {
 }
 
 message EditBeerResponse {
-
+  bool isSuccess = 1;
 }
 
 message DeleteBeerRequest {
@@ -56,5 +56,5 @@ message DeleteBeerRequest {
 }
 
 message DeleteBeerResponse {
-
+  bool isSuccess = 1;
 }
