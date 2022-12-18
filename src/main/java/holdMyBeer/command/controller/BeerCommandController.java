@@ -1,6 +1,7 @@
 package holdMyBeer.command.controller;
 
 import com.proto.prime.*;
+import holdMyBeer.command.CreateBeerCommand;
 import holdMyBeer.command.rest.CreateBeerRestModel;
 import holdMyBeer.command.rest.DeleteBeerRestModel;
 import holdMyBeer.command.rest.UpdateBeerRestModel;
@@ -20,9 +21,7 @@ public class BeerCommandController {
     private final AuthenticationServiceGrpc.AuthenticationServiceBlockingStub authenticationServiceBlockingStub;
     private final BeerServiceGrpc.BeerServiceBlockingStub beerServiceBlockingStub;
     private final FavoriteBeerServiceGrpc.FavoriteBeerServiceBlockingStub favoriteBeerServiceBlockingStub;
-    @Autowired
     public BeerCommandController(CommandGateway commandGateway, ManagedChannel channel) {
-        this.commandGateway = commandGateway;
         this.authenticationServiceBlockingStub = AuthenticationServiceGrpc.newBlockingStub(channel);
         this.beerServiceBlockingStub = BeerServiceGrpc.newBlockingStub(channel);
         this.favoriteBeerServiceBlockingStub = FavoriteBeerServiceGrpc.newBlockingStub(channel);
@@ -34,15 +33,16 @@ public class BeerCommandController {
     public boolean createBeer(@RequestBody CreateBeerRestModel beer){
 
             CreateBeerRequest request = CreateBeerRequest.newBuilder()
-                    .setIdrandom(UUID.randomUUID().toString())
                     .setName(beer.getName())
                     .setDescription(beer.getDescription())
                     .addAllIngredients(beer.getIngredients())
                     .addAllMethods(Arrays.asList(beer.getMethods()))
                     .build();
 
+            CreateBeerCommand command = CreateBeerCommand.builder()._id(UUID.randomUUID().toString()).name(beer.getName()).description(beer.getDescription()).ingredients(beer.getIngredients()).methods(beer.getMethods()).build();
+
             try{
-                commandGateway.sendAndWait(request);
+                commandGateway.sendAndWait(command);
             }catch (Exception e){
               e.getLocalizedMessage();
             }
