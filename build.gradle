@@ -46,7 +46,8 @@ dependencies {
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '3.0.0'
     implementation group: 'org.axonframework', name: 'axon-spring-boot-starter', version: '4.6.2'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: '2.7.6'
-
+// https://mvnrepository.com/artifact/com.rabbitmq/amqp-client
+    implementation group: 'com.rabbitmq', name: 'amqp-client', version: '5.16.0'
 }
 
 test {
