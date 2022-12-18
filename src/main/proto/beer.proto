@@ -44,7 +44,10 @@ message QueryBeersResponse {
 }
 
 message EditBeerRequest {
-
+  string name = 1;
+  string description = 2;
+  repeated Ingredient ingredients = 3;
+  repeated string methods = 4;
 }
 
 message EditBeerResponse {
@@ -52,7 +55,7 @@ message EditBeerResponse {
 }
 
 message DeleteBeerRequest {
-
+  string id = 1;
 }
 
 message DeleteBeerResponse {
