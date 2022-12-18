@@ -35,11 +35,11 @@ public class BeerAggregate {
 
    @EventSourcingHandler
     public void on(BeerCreatedEvent beerCreatedEvent){
-//        this.beerId = beerCreatedEvent.getBeerId();
-//        this.name = beerCreatedEvent.getName();
-//        this.description = beerCreatedEvent.getDescription();
-//        this.ingredients = beerCreatedEvent.getIngredients();
-//        this.methods = beerCreatedEvent.getMethods();
+      this._id = beerCreatedEvent.get_id();
+       this.name = beerCreatedEvent.getName();
+       this.description = beerCreatedEvent.getDescription();
+        this.ingredients = beerCreatedEvent.getIngredients();
+        this.methods = beerCreatedEvent.getMethods();
 
    }
 }
