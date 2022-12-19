@@ -28,15 +28,17 @@ public class CreateBeerAggregate {
     @CommandHandler
     public CreateBeerAggregate(CreateBeerCommand createBeerCommand){
 
-        System.out.println("test event");
+        System.out.println("Aggregate");
 
         CreateBeerEvent createBeerEvent = new CreateBeerEvent();
         BeanUtils.copyProperties(createBeerCommand, createBeerEvent);
         AggregateLifecycle.apply(createBeerEvent);
+
    }
 
    @EventSourcingHandler
     public void onCreateBeerEvent(CreateBeerEvent createBeerEvent){
+
        this._id = createBeerEvent.get_id();
        this.name = createBeerEvent.getName();
        this.description = createBeerEvent.getDescription();

@@ -11,7 +11,6 @@ import java.io.IOException;
 
 @SpringBootApplication
 public class  HoldMyBeersApplication {
-
     public static void main(String[] args) {
        try {
            ConfigurableApplicationContext context = SpringApplication.run(HoldMyBeersApplication.class, args);

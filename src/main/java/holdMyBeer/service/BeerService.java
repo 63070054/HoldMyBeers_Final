@@ -20,8 +20,6 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
     @Autowired
     private BeerRepository beerRepository;
 
-    @Autowired
-    private CommandGateway commandGateway;
 
     public List<IngredientDB> convertIngredientRequestToDB(List<Ingredient> ingredientsRequest){
         List<IngredientDB> ingredientsDB = new ArrayList<>();

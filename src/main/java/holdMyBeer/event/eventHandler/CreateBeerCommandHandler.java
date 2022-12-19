@@ -4,9 +4,20 @@ import com.proto.prime.BeerServiceGrpc;
 import com.proto.prime.CreateBeerRequest;
 import com.proto.prime.Ingredient;
 import holdMyBeer.command.CreateBeerCommand;
+import holdMyBeer.command.aggregate.CreateBeerAggregate;
 import holdMyBeer.database.pojo.data.IngredientDB;
+import holdMyBeer.event.CreateBeerEvent;
 import io.grpc.ManagedChannel;
 import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.eventhandling.EventBus;
+import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.eventhandling.EventMessage;
+import org.axonframework.eventhandling.GenericEventMessage;
+import org.axonframework.eventsourcing.AggregateFactory;
+import org.axonframework.modelling.command.AggregateLifecycle;
+import org.axonframework.modelling.command.Repository;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -36,20 +47,22 @@ public class CreateBeerCommandHandler {
         return ingredientsGRPC;
     }
 
-    @CommandHandler
-    public boolean handleCreateBeerEvent(CreateBeerCommand command){
+    @EventHandler
+    public void handleCreateBeerCommand(CreateBeerEvent event){
 
-        System.out.println("Handle");
+        System.out.println("Event Trigger");
 
-        List<Ingredient> ingredientsGRPC = convertIngredientCommandToRequest(command.getIngredients());
-
-        CreateBeerRequest request = CreateBeerRequest.newBuilder()
-                .setName(command.getName())
-                .setDescription(command.getDescription())
-                .addAllIngredients(ingredientsGRPC)
-                .addAllMethods(Arrays.asList(command.getMethods()))
-                .build();
-        return beerServiceBlockingStub.createBeerDecomposition(request).getIsSuccess();
-
+        try {
+            List<Ingredient> ingredientsGRPC = convertIngredientCommandToRequest(event.getIngredients());
+            CreateBeerRequest request = CreateBeerRequest.newBuilder()
+                    .setName(event.getName())
+                    .setDescription(event.getDescription())
+                    .addAllIngredients(ingredientsGRPC)
+                    .addAllMethods(Arrays.asList(event.getMethods()))
+                    .build();
+            beerServiceBlockingStub.createBeerDecomposition(request);
+        } catch (Exception e){
+            System.out.println(e);
+        }
     }
 }

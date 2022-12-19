@@ -23,7 +23,7 @@ public class BeerQueryController {
 
 
     // Read All Beer
-    @RabbitListener(queues = "QueryBeersQueue")
+//    @RabbitListener(queues = "QueryBeersQueue")
     @GetMapping
     public boolean queryBeersDecomposition() {
 
@@ -34,7 +34,7 @@ public class BeerQueryController {
 
     }
     // Read Beer By id
-    @RabbitListener(queues = "QueryBeerByIdQueue")
+//    @RabbitListener(queues = "QueryBeerByIdQueue")
     @GetMapping("/{id}")
     public boolean queryBeerByIdDecomposition(@PathVariable String id) {
         QueryBeerByIdRequest beersRequest = QueryBeerByIdRequest.newBuilder().setId(id).build();
