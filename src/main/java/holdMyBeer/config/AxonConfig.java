@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
 import javax.annotation.PostConstruct;
 
 @Configuration
-@ComponentScan
+@ComponentScan(basePackages = "holdMyBeer")
 @EnableAutoConfiguration
 public class AxonConfig {
 

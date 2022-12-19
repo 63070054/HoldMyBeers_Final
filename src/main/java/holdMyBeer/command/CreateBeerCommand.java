@@ -1,6 +1,6 @@
 package holdMyBeer.command;
 
-import com.proto.prime.Ingredient;
+import holdMyBeer.database.pojo.data.IngredientDB;
 import lombok.Builder;
 import lombok.Data;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
@@ -14,7 +14,7 @@ public class CreateBeerCommand {
     private final String _id;
     private final String name;
     private final String description;
-    private final List<Ingredient> ingredients;
+    private final List<IngredientDB> ingredients;
     private final String[] methods;
 
 }

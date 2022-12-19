@@ -12,8 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan
-@EnableAutoConfiguration
+@ComponentScan(basePackages = "holdMyBeer")
 public class GrpcServerConfig {
 
     @Autowired
@@ -26,7 +25,7 @@ public class GrpcServerConfig {
 
     @Bean
     public ServerBuilder<?> ServerBuilder(MongoClient mongoClient) {
-        ServerBuilder<?> serverBuilder = ServerBuilder.forPort(50052);
+        ServerBuilder<?> serverBuilder = ServerBuilder.forPort(50000);
         serverBuilder.addService(authenticationService);
         serverBuilder.addService(beerService);
         serverBuilder.addService(favoriteBeerService);

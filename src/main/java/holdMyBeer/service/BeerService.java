@@ -2,17 +2,17 @@ package holdMyBeer.service;
 
 import com.google.protobuf.ProtocolStringList;
 import com.proto.prime.*;
-import holdMyBeer.command.CreateBeerCommand;
 import holdMyBeer.database.pojo.Beer;
+import holdMyBeer.database.pojo.data.IngredientDB;
 import holdMyBeer.database.repository.BeerRepository;
 import io.grpc.stub.StreamObserver;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 
 @Service
@@ -23,35 +23,40 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
     @Autowired
     private CommandGateway commandGateway;
 
+    public List<IngredientDB> convertIngredientRequestToDB(List<Ingredient> ingredientsRequest){
+        List<IngredientDB> ingredientsDB = new ArrayList<>();
+        for (Ingredient ingredient : ingredientsRequest) {
+            IngredientDB newIngredient = new IngredientDB();
+            newIngredient.setName(ingredient.getName());
+            newIngredient.setQuantity(ingredient.getQuantity());
+            newIngredient.setUnit(ingredient.getUnit());
+            ingredientsDB.add(newIngredient);
+        }
+
+        return ingredientsDB;
+
+    }
+
+    public String[] convertMethodsRequestToDB(ProtocolStringList stringListRequest){
+        Object[] objectArray = stringListRequest.toArray();
+        String[] methods = Arrays.copyOf(objectArray, objectArray.length, String[].class);
+        return methods;
+    }
+
 
     @Override
     public void createBeerDecomposition(CreateBeerRequest request, StreamObserver<CreateBeerResponse> responseObserver) {
         try{
 
-            ProtocolStringList stringList = request.getMethodsList();
-            Object[] objectArray = stringList.toArray();
-            String[] methods = Arrays.copyOf(objectArray, objectArray.length, String[].class);
-
-            CreateBeerCommand command = CreateBeerCommand.builder()
-                    ._id(UUID.randomUUID().toString())
-                    .name(request.getName())
-                    .description(request.getDescription())
-                    .ingredients(request.getIngredientsList())
-                    .methods(methods)
-                    .build();
-
-            String result = commandGateway.sendAndWait(command);
-            System.out.println("result" + result);
-
-            Beer beer = new Beer(request.getName(), request.getDescription(), request.getIngredientsList(), methods);
+            String[] methods = convertMethodsRequestToDB(request.getMethodsList());
+            List<IngredientDB> ingredientsDB = convertIngredientRequestToDB(request.getIngredientsList());
+            Beer beer = new Beer(request.getName(), request.getDescription(), ingredientsDB, methods);
             beerRepository.insert(beer);
-
             CreateBeerResponse response = CreateBeerResponse.newBuilder()
                     .setIsSuccess(true)
                     .build();
             responseObserver.onNext(response);
         }catch (Exception e){
-            System.out.println(e);
             CreateBeerResponse response = CreateBeerResponse.newBuilder()
                     .setIsSuccess(false)
                     .build();
@@ -66,9 +71,6 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
         try {
             List<Beer> beers = beerRepository.findAll();
 
-            for(Beer beer : beers) {
-                System.out.println("BeerName : " + beer.getName());
-            }
             QueryBeersResponse response =QueryBeersResponse.newBuilder()
                     .setIsSuccess(true)
                     .build();
@@ -90,7 +92,6 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
     public void queryBeerByIdDecomposition(QueryBeerByIdRequest request, StreamObserver<QueryBeerByIdResponse> responseObserver) {
         try{
             Beer beer = beerRepository.findBeerByID(request.getId());
-            System.out.println("BearName: "+ beer.getName());
             QueryBeerByIdResponse response = QueryBeerByIdResponse.newBuilder()
                     .setIsSuccess(true)
                     .build();
@@ -105,25 +106,27 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
     }
 
     @Override
-    public void editBeerDecomposition(EditBeerRequest request, StreamObserver<EditBeerResponse> responseObserver) {
+    public void updateBeerDecomposition(UpdateBeerRequest request, StreamObserver<UpdateBeerResponse> responseObserver) {
         try{
-            ProtocolStringList stringList = request.getMethodsList();
-            Object[] objectArray = stringList.toArray();
-            String[] methods = Arrays.copyOf(objectArray, objectArray.length, String[].class);
-            Beer beer = new Beer(request.getLocalId(),request.getName(), request.getDescription(), request.getIngredientsList(), methods);
+            String[] methods = convertMethodsRequestToDB(request.getMethodsList());
+            List<IngredientDB> ingredientsDB = convertIngredientRequestToDB(request.getIngredientsList());
+            Beer beer = new Beer(request.getId(),request.getName(), request.getDescription(), ingredientsDB, methods);
             beerRepository.save(beer);
-            EditBeerResponse response = EditBeerResponse.newBuilder()
+
+
+            UpdateBeerResponse response = UpdateBeerResponse.newBuilder()
                     .setIsSuccess(true)
                     .build();
             responseObserver.onNext(response);
         }catch (Exception e){
-            EditBeerResponse response = EditBeerResponse.newBuilder()
+            UpdateBeerResponse response = UpdateBeerResponse.newBuilder()
                     .setIsSuccess(false)
                     .build();
             responseObserver.onNext(response);
         }
         responseObserver.onCompleted();
     }
+
 
     @Override
     public void deleteBeerDecomposition(DeleteBeerRequest request, StreamObserver<DeleteBeerResponse> responseObserver) {

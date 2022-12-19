@@ -8,13 +8,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan
-@EnableAutoConfiguration
+@ComponentScan(basePackages = "holdMyBeer")
 public class GrpcClientConfig {
 
     @Bean
     public ManagedChannel channel() {
-        return ManagedChannelBuilder.forAddress("localhost", 50052)
+        return ManagedChannelBuilder.forAddress("localhost", 50000)
                 .usePlaintext()
                 .build();
     }

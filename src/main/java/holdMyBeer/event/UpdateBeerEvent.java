@@ -1,16 +1,15 @@
-package holdMyBeer.command.rest;
+package holdMyBeer.event;
 
-import com.proto.prime.Ingredient;
 import holdMyBeer.database.pojo.data.IngredientDB;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class CreateBeerRestModel {
+public class UpdateBeerEvent {
+    private String _id;
     private String name;
     private String description;
     private List<IngredientDB> ingredients;
     private String[] methods;
-
 }

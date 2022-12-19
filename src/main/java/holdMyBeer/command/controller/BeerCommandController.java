@@ -1,15 +1,21 @@
 package holdMyBeer.command.controller;
 
 import com.proto.prime.*;
+import holdMyBeer.command.CreateBeerCommand;
+import holdMyBeer.command.UpdateBeerCommand;
 import holdMyBeer.command.rest.CreateBeerRestModel;
 import holdMyBeer.command.rest.DeleteBeerRestModel;
 import holdMyBeer.command.rest.UpdateBeerRestModel;
+import holdMyBeer.database.pojo.data.IngredientDB;
 import io.grpc.ManagedChannel;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -21,6 +27,8 @@ public class BeerCommandController {
     private final AuthenticationServiceGrpc.AuthenticationServiceBlockingStub authenticationServiceBlockingStub;
     private final BeerServiceGrpc.BeerServiceBlockingStub beerServiceBlockingStub;
     private final FavoriteBeerServiceGrpc.FavoriteBeerServiceBlockingStub favoriteBeerServiceBlockingStub;
+    @Autowired
+    private CommandGateway commandGateway;
 
     public BeerCommandController(ManagedChannel channel) {
         this.authenticationServiceBlockingStub = AuthenticationServiceGrpc.newBlockingStub(channel);
@@ -33,35 +41,27 @@ public class BeerCommandController {
     @PostMapping
     public boolean createBeer(@RequestBody CreateBeerRestModel beer){
 
-            CreateBeerRequest request = CreateBeerRequest.newBuilder()
-                    .setName(beer.getName())
-                    .setDescription(beer.getDescription())
-                    .addAllIngredients(beer.getIngredients())
-                    .addAllMethods(Arrays.asList(beer.getMethods()))
+            CreateBeerCommand command = CreateBeerCommand.builder()
+                    ._id(UUID.randomUUID().toString())
+                    .name(beer.getName())
+                    .description(beer.getDescription())
+                    .ingredients(beer.getIngredients())
+                    .methods(beer.getMethods())
                     .build();
-
-//            CreateBeerCommand command = CreateBeerCommand.builder()._id(UUID.randomUUID().toString()).name(beer.getName()).description(beer.getDescription()).ingredients(beer.getIngredients()).methods(beer.getMethods()).build();
-//
-//            try{
-//                commandGateway.sendAndWait(command);
-//            }catch (Exception e){
-//              e.getLocalizedMessage();
-//            }
-            return beerServiceBlockingStub.createBeerDecomposition(request).getIsSuccess();
-
-
+            return commandGateway.sendAndWait(command);
     }
     // Update Beer
     @PutMapping()
     public boolean updateBeer(@RequestBody UpdateBeerRestModel beer) {
-        EditBeerRequest request = EditBeerRequest.newBuilder()
-                .setLocalId(beer.get_id())
-                .setName(beer.getName())
-                .setDescription(beer.getDescription())
-                .addAllIngredients(beer.getIngredients())
-                .addAllMethods(Arrays.asList(beer.getMethods()))
+
+        UpdateBeerCommand command = UpdateBeerCommand.builder()
+                ._id(UUID.randomUUID().toString())
+                .name(beer.getName())
+                .description(beer.getDescription())
+                .ingredients(beer.getIngredients())
+                .methods(beer.getMethods())
                 .build();
-        return beerServiceBlockingStub.editBeerDecomposition(request).getIsSuccess();
+        return commandGateway.sendAndWait(command);
     }
 
     // Delete Beer

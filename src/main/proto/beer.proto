@@ -6,7 +6,7 @@ service BeerService {
   rpc CreateBeerDecomposition(CreateBeerRequest) returns (CreateBeerResponse) {};
   rpc QueryBeersDecomposition(QueryBeersRequest) returns (stream QueryBeersResponse) {};
   rpc QueryBeerByIdDecomposition(QueryBeerByIdRequest) returns (QueryBeerByIdResponse) {};
-  rpc EditBeerDecomposition(EditBeerRequest) returns (EditBeerResponse) {};
+  rpc UpdateBeerDecomposition(UpdateBeerRequest) returns (UpdateBeerResponse) {};
   rpc DeleteBeerDecomposition(DeleteBeerRequest) returns (DeleteBeerResponse) {};
 }
 
@@ -28,7 +28,7 @@ message CreateBeerResponse {
 }
 
 message QueryBeerByIdRequest {
-  string id = 1;
+  string _id = 1;
 }
 
 message QueryBeerByIdResponse {
@@ -43,20 +43,20 @@ message QueryBeersResponse {
   bool isSuccess = 1;
 }
 
-message EditBeerRequest {
-  string local_id = 1;
+message UpdateBeerRequest {
+  string _id = 1;
   string name = 2;
   string description = 3;
   repeated Ingredient ingredients = 4;
   repeated string methods = 5;
 }
 
-message EditBeerResponse {
+message UpdateBeerResponse {
   bool isSuccess = 1;
 }
 
 message DeleteBeerRequest {
-  string id = 1;
+  string _id = 1;
 }
 
 message DeleteBeerResponse {

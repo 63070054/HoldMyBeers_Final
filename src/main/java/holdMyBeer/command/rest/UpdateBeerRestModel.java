@@ -1,6 +1,6 @@
 package holdMyBeer.command.rest;
 
-import com.proto.prime.Ingredient;
+import holdMyBeer.database.pojo.data.IngredientDB;
 import lombok.Data;
 
 import java.util.List;
@@ -10,6 +10,6 @@ public class UpdateBeerRestModel {
     private String _id;
     private String name;
     private String description;
-    private List<Ingredient> ingredients;
+    private List<IngredientDB> ingredients;
     private String[] methods;
 }
