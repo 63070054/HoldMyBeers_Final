@@ -26,25 +26,19 @@ public class CreateBeerAggregate {
 
     }
     @CommandHandler
-    public CreateBeerAggregate(CreateBeerCommand createBeerCommand){
-
-        System.out.println("Aggregate");
-
-        CreateBeerEvent createBeerEvent = new CreateBeerEvent();
-        BeanUtils.copyProperties(createBeerCommand, createBeerEvent);
-        AggregateLifecycle.apply(createBeerEvent);
+    public CreateBeerAggregate(CreateBeerCommand command){
+        CreateBeerEvent event = new CreateBeerEvent();
+        BeanUtils.copyProperties(command, event);
+        AggregateLifecycle.apply(event);
 
    }
 
    @EventSourcingHandler
-    public void onCreateBeerEvent(CreateBeerEvent createBeerEvent){
-
-       System.out.println("Event Trigger Aggregate");
-
-       this._id = createBeerEvent.get_id();
-       this.name = createBeerEvent.getName();
-       this.description = createBeerEvent.getDescription();
-       this.ingredients = createBeerEvent.getIngredients();
-       this.methods = createBeerEvent.getMethods();
+    public void onCreateBeerEvent(CreateBeerEvent event){
+       this._id = event.get_id();
+       this.name = event.getName();
+       this.description = event.getDescription();
+       this.ingredients = event.getIngredients();
+       this.methods = event.getMethods();
    }
 }

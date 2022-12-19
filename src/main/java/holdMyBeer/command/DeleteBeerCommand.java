@@ -9,4 +9,5 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 public class DeleteBeerCommand {
     @TargetAggregateIdentifier
     private final String _id;
+
 }

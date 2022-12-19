@@ -25,19 +25,18 @@ public class UpdateBeerAggregate {
 
     }
     @CommandHandler
-    public UpdateBeerAggregate(UpdateBeerCommand updateBeerCommand){
-        System.out.println("Update Beer Command Aggregate");
-        UpdateBeerEvent updateBeerEvent = new UpdateBeerEvent();
-        BeanUtils.copyProperties(updateBeerCommand, updateBeerEvent);
-        AggregateLifecycle.apply(updateBeerEvent);
+    public UpdateBeerAggregate(UpdateBeerCommand command){
+        UpdateBeerEvent event = new UpdateBeerEvent();
+        BeanUtils.copyProperties(command, event);
+        AggregateLifecycle.apply(event);
     }
 
     @EventSourcingHandler
-    public void onUpdateBeerEvent(UpdateBeerEvent updateBeerEvent){
-        this._id = updateBeerEvent.get_id();
-        this.name = updateBeerEvent.getName();
-        this.description = updateBeerEvent.getDescription();
-        this.ingredients = updateBeerEvent.getIngredients();
-        this.methods = updateBeerEvent.getMethods();
+    public void onUpdateBeerEvent(UpdateBeerEvent event){
+        this._id = event.get_id();
+        this.name = event.getName();
+        this.description = event.getDescription();
+        this.ingredients = event.getIngredients();
+        this.methods = event.getMethods();
     }
 }
