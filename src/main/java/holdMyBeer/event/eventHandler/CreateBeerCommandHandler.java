@@ -50,7 +50,7 @@ public class CreateBeerCommandHandler {
     @EventHandler
     public void handleCreateBeerCommand(CreateBeerEvent event){
 
-        System.out.println("Event Trigger");
+        System.out.println("Event Create Trigger : " + event.getName());
 
         try {
             List<Ingredient> ingredientsGRPC = convertIngredientCommandToRequest(event.getIngredients());

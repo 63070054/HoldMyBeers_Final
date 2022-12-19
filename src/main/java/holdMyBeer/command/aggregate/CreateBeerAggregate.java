@@ -39,6 +39,8 @@ public class CreateBeerAggregate {
    @EventSourcingHandler
     public void onCreateBeerEvent(CreateBeerEvent createBeerEvent){
 
+       System.out.println("Event Trigger Aggregate");
+
        this._id = createBeerEvent.get_id();
        this.name = createBeerEvent.getName();
        this.description = createBeerEvent.getDescription();

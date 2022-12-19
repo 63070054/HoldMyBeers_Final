@@ -17,7 +17,6 @@ public class BeerCommandController {
     @Autowired
     private CommandGateway commandGateway;
 
-
     // Create Beer
     @PostMapping
     public boolean createBeer(@RequestBody CreateBeerRestModel beer){

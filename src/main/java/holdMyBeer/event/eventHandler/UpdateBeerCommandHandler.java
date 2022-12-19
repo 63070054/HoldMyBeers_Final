@@ -4,8 +4,11 @@ import com.proto.prime.*;
 import holdMyBeer.command.CreateBeerCommand;
 import holdMyBeer.command.UpdateBeerCommand;
 import holdMyBeer.database.pojo.data.IngredientDB;
+import holdMyBeer.event.CreateBeerEvent;
+import holdMyBeer.event.UpdateBeerEvent;
 import io.grpc.ManagedChannel;
 import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -34,19 +37,21 @@ public class UpdateBeerCommandHandler {
         return ingredientsGRPC;
     }
 
-    @CommandHandler
-    public boolean handleUpdateBeerEvent(UpdateBeerCommand command){
+    @EventHandler
+    public void handleUpdateBeerEvent(UpdateBeerEvent event){
 
-        List<Ingredient> ingredientsGRPC = convertIngredientCommandToRequest(command.getIngredients());
+        System.out.println("Event Update Trigger");
+
+        List<Ingredient> ingredientsGRPC = convertIngredientCommandToRequest(event.getIngredients());
 
         UpdateBeerRequest request = UpdateBeerRequest.newBuilder()
-                .setId(command.get_id())
-                .setName(command.getName())
-                .setDescription(command.getDescription())
+                .setId(event.get_id())
+                .setName(event.getName())
+                .setDescription(event.getDescription())
                 .addAllIngredients(ingredientsGRPC)
-                .addAllMethods(Arrays.asList(command.getMethods()))
+                .addAllMethods(Arrays.asList(event.getMethods()))
                 .build();
-        return beerServiceBlockingStub.updateBeerDecomposition(request).getIsSuccess();
+        beerServiceBlockingStub.updateBeerDecomposition(request).getIsSuccess();
 
     }
 }
