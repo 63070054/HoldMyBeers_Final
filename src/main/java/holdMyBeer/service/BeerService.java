@@ -19,8 +19,9 @@ import java.util.UUID;
 public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
     @Autowired
     private BeerRepository beerRepository;
-//    @Autowired
-//    private CommandGateway commandGateway;
+
+    @Autowired
+    private CommandGateway commandGateway;
 
 
     @Override
@@ -31,16 +32,16 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
             Object[] objectArray = stringList.toArray();
             String[] methods = Arrays.copyOf(objectArray, objectArray.length, String[].class);
 
-//            CreateBeerCommand command = CreateBeerCommand.builder()
-//                    ._id(UUID.randomUUID().toString())
-//                    .name(request.getName())
-//                    .description(request.getDescription())
-//                    .ingredients(request.getIngredientsList())
-//                    .methods(methods)
-//                    .build();
+            CreateBeerCommand command = CreateBeerCommand.builder()
+                    ._id(UUID.randomUUID().toString())
+                    .name(request.getName())
+                    .description(request.getDescription())
+                    .ingredients(request.getIngredientsList())
+                    .methods(methods)
+                    .build();
 
-//            String result = commandGateway.sendAndWait(command);
-//            System.out.println(result);
+            String result = commandGateway.sendAndWait(command);
+            System.out.println("result" + result);
 
             Beer beer = new Beer(request.getName(), request.getDescription(), request.getIngredientsList(), methods);
             beerRepository.insert(beer);
@@ -50,6 +51,7 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
                     .build();
             responseObserver.onNext(response);
         }catch (Exception e){
+            System.out.println(e);
             CreateBeerResponse response = CreateBeerResponse.newBuilder()
                     .setIsSuccess(false)
                     .build();

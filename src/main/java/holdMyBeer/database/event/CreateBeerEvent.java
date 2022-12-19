@@ -11,6 +11,4 @@ public class CreateBeerEvent {
     private String description;
     private List<Ingredient> ingredients;
     private String[] methods;
-
-
 }

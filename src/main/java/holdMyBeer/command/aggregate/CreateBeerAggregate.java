@@ -1,7 +1,7 @@
 package holdMyBeer.command.aggregate;
 
 import com.proto.prime.Ingredient;
-import holdMyBeer.command.controller.BeerCommandController;
+import holdMyBeer.command.CreateBeerCommand;
 import holdMyBeer.database.event.CreateBeerEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -26,14 +26,14 @@ public class CreateBeerAggregate {
 
     }
     @CommandHandler
-    public CreateBeerAggregate(BeerCommandController beerCommandController){
+    public CreateBeerAggregate(CreateBeerCommand createBeerCommand){
         CreateBeerEvent createBeerEvent = new CreateBeerEvent();
-        BeanUtils.copyProperties(beerCommandController, createBeerEvent);
+        BeanUtils.copyProperties(createBeerCommand, createBeerEvent);
         AggregateLifecycle.apply(createBeerEvent);
    }
 
    @EventSourcingHandler
-    public void on(CreateBeerEvent createBeerEvent){
+    public void onCreateBeerEvent(CreateBeerEvent createBeerEvent){
        this._id = createBeerEvent.get_id();
        this.name = createBeerEvent.getName();
        this.description = createBeerEvent.getDescription();

@@ -2,7 +2,6 @@ package holdMyBeer.service;
 
 import com.proto.prime.*;
 import holdMyBeer.database.repository.BeerRepository;
-import io.grpc.stub.StreamObserver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

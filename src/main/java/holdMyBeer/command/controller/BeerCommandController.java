@@ -1,7 +1,6 @@
 package holdMyBeer.command.controller;
 
 import com.proto.prime.*;
-import holdMyBeer.command.CreateBeerCommand;
 import holdMyBeer.command.rest.CreateBeerRestModel;
 import holdMyBeer.command.rest.DeleteBeerRestModel;
 import holdMyBeer.command.rest.UpdateBeerRestModel;
@@ -17,11 +16,12 @@ import java.util.UUID;
 @RequestMapping("/beers")
 public class BeerCommandController {
 
-//    private  CommandGateway commandGateway;
+
+
     private final AuthenticationServiceGrpc.AuthenticationServiceBlockingStub authenticationServiceBlockingStub;
     private final BeerServiceGrpc.BeerServiceBlockingStub beerServiceBlockingStub;
     private final FavoriteBeerServiceGrpc.FavoriteBeerServiceBlockingStub favoriteBeerServiceBlockingStub;
-//    public BeerCommandController(CommandGateway commandGateway, ManagedChannel channel) {
+
     public BeerCommandController(ManagedChannel channel) {
         this.authenticationServiceBlockingStub = AuthenticationServiceGrpc.newBlockingStub(channel);
         this.beerServiceBlockingStub = BeerServiceGrpc.newBlockingStub(channel);

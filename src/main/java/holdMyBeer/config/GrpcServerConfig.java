@@ -6,9 +6,14 @@ import holdMyBeer.service.BeerService;
 import holdMyBeer.service.FavoriteBeerService;
 import io.grpc.ServerBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@ComponentScan
+@EnableAutoConfiguration
 public class GrpcServerConfig {
 
     @Autowired
@@ -19,6 +24,7 @@ public class GrpcServerConfig {
     private FavoriteBeerService favoriteBeerService;
 
 
+    @Bean
     public ServerBuilder<?> ServerBuilder(MongoClient mongoClient) {
         ServerBuilder<?> serverBuilder = ServerBuilder.forPort(50052);
         serverBuilder.addService(authenticationService);
