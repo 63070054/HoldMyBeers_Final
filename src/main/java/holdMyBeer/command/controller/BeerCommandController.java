@@ -1,9 +1,7 @@
 package holdMyBeer.command.controller;
 
 import com.proto.prime.*;
-import holdMyBeer.command.rest.CreateBeerRestModel;
-import holdMyBeer.command.rest.DeleteBeerRestModel;
-import holdMyBeer.command.rest.UpdateBeerRestModel;
+import holdMyBeer.command.rest.*;
 import io.grpc.ManagedChannel;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +25,6 @@ public class BeerCommandController {
         this.beerServiceBlockingStub = BeerServiceGrpc.newBlockingStub(channel);
         this.favoriteBeerServiceBlockingStub = FavoriteBeerServiceGrpc.newBlockingStub(channel);
     }
-
 
     // Create Beer
     @PostMapping
@@ -72,6 +69,26 @@ public class BeerCommandController {
                 .build();
         return beerServiceBlockingStub.deleteBeerDecomposition(request).getIsSuccess();
     }
+
+    // Delete Favorite
+//    @DeleteMapping()
+//    public boolean deleteFavorite(@RequestBody DeleteFavoriteRestModel fav) {
+//        RemoveBeerToFavoriteRequest request = RemoveBeerToFavoriteRequest.newBuilder()
+//                .setUserId(fav.getUserId())
+//                .setBeerId(fav.getBeerId())
+//                .build();
+//        return favoriteBeerServiceBlockingStub.deleteBeerDecomposition(request).getIsSuccess();
+//    }
+
+    // Add Beer To Favorite
+//    @PutMapping()
+//    public boolean addBeerToFavorite(@RequestBody AddFavoriteRestModel fav) {
+//        AddBeerToFavoriteRequest request = AddBeerToFavoriteRequest.newBuilder()
+//                .setUserId(fav.getUserId())
+//                .setBeerId(fav.getBeerId())
+//                .build();
+//        return favoriteBeerServiceBlockingStub.editBeerDecomposition(request).getIsSuccess();
+//    }
 
 
 }
