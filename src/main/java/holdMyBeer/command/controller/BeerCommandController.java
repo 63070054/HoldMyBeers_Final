@@ -6,6 +6,7 @@ import holdMyBeer.command.rest.DeleteBeerRestModel;
 import holdMyBeer.command.rest.UpdateBeerRestModel;
 import io.grpc.ManagedChannel;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,7 @@ public class BeerCommandController {
 
 
     // Create Beer
+    @RabbitListener(queues = "CreateBeerQueue")
     @PostMapping
     public boolean createBeer(@RequestBody CreateBeerRestModel beer){
 
@@ -52,6 +54,7 @@ public class BeerCommandController {
 
     }
     // Update Beer
+    @RabbitListener(queues = "EditBeerQueue")
     @PutMapping()
     public boolean updateBeer(@RequestBody UpdateBeerRestModel beer) {
         EditBeerRequest request = EditBeerRequest.newBuilder()
@@ -65,6 +68,7 @@ public class BeerCommandController {
     }
 
     // Delete Beer
+    @RabbitListener(queues = "DeleteBeerQueue")
     @DeleteMapping()
     public boolean deleteBeer(@RequestBody DeleteBeerRestModel beer) {
         DeleteBeerRequest request = DeleteBeerRequest.newBuilder()
