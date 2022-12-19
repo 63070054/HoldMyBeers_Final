@@ -8,14 +8,18 @@ service FavoriteBeerService {
 }
 
 message AddBeerToFavoriteRequest {
-
+  string userId = 1;
+  string beerId = 2;
 }
 
 message AddBeerToFavoriteResponse {
 
+
 }
 
 message RemoveBeerToFavoriteRequest {
+  string userId = 1;
+  string beerId = 2;
 
 }
 
