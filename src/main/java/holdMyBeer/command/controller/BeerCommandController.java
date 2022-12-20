@@ -33,11 +33,11 @@ public class BeerCommandController {
         this.favoriteBeerServiceBlockingStub = FavoriteBeerServiceGrpc.newBlockingStub(channel);
     }
 
-    public List<Ingredient> convertIngredientRestToRequest(List<IngredientDB> ingredientsFromCommand) {
-        List<Ingredient> ingredientsGRPC = new ArrayList<>();
+    public List<IngredientBeerRequest> convertIngredientRestToRequest(List<IngredientDB> ingredientsFromCommand) {
+        List<IngredientBeerRequest> ingredientsGRPC = new ArrayList<>();
 
         for (IngredientDB ingredient : ingredientsFromCommand) {
-            Ingredient newIngredient = Ingredient.newBuilder()
+            IngredientBeerRequest newIngredient = IngredientBeerRequest.newBuilder()
                     .setName(ingredient.getName())
                     .setQuantity(ingredient.getQuantity())
                     .setUnit(ingredient.getUnit())
@@ -52,7 +52,7 @@ public class BeerCommandController {
     public boolean createBeer(@RequestBody CreateBeerRestModel beer){
             try {
 
-                List<Ingredient> ingredientsGRPC = convertIngredientRestToRequest(beer.getIngredients());
+                List<IngredientBeerRequest> ingredientsGRPC = convertIngredientRestToRequest(beer.getIngredients());
                 CreateBeerRequest request = CreateBeerRequest.newBuilder()
                         .setName(beer.getName())
                         .setDescription(beer.getDescription())
@@ -80,7 +80,7 @@ public class BeerCommandController {
     public boolean updateBeer(@RequestBody UpdateBeerRestModel beer) {
 
         try {
-            List<Ingredient> ingredientsGRPC = convertIngredientRestToRequest(beer.getIngredients());
+            List<IngredientBeerRequest> ingredientsGRPC = convertIngredientRestToRequest(beer.getIngredients());
             UpdateBeerRequest request = UpdateBeerRequest.newBuilder()
                     .setId(beer.get_id())
                     .setName(beer.getName())
