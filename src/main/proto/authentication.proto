@@ -6,25 +6,25 @@ service AuthenticationService {
   rpc SignInDecomposition(SignInRequest) returns (SignInResponse) {};
 }
 
-message IngredientUser {
+message IngredientUserRequest {
   string _id = 1;
   string name = 2;
   int32 quantity = 3;
   string unit = 4;
 }
 
-message BeerUser {
+message BeerUserRequest {
   string _id = 1;
   string name = 2;
   string description = 3;
-  repeated IngredientUser ingredients = 4;
+  repeated IngredientUserRequest ingredients = 4;
   repeated string methods = 5;
 }
 
 message SignInRequest {
 
-  repeated BeerUser favorite = 1;
-  repeated BeerUser owner = 2;
+  repeated BeerUserRequest favorite = 1;
+  repeated BeerUserRequest owner = 2;
   string firstName = 3;
   string lastName = 4;
   string email = 5;

@@ -9,16 +9,16 @@ import java.util.List;
 
 @Data
 @Document("Users")
-public class User implements Serializable {
+public class UserDB implements Serializable {
     @Id
     private String _id;
-    private List<Beer> favorite;
-    private List<Beer> owner;
+    private List<BeerDB> favorite;
+    private List<BeerDB> owner;
     private String firstName;
     private String lastName;
     private String email;
 
-    public User(String _id, List<Beer> favorite, List<Beer> owner, String firstName, String lastName, String email){
+    public UserDB(String _id, List<BeerDB> favorite, List<BeerDB> owner, String firstName, String lastName, String email){
         this._id = _id;
         this.favorite = favorite;
         this.owner = owner;
@@ -27,7 +27,7 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public User(List<Beer> favorite, List<Beer> owner, String firstName, String lastName, String email){
+    public UserDB(List<BeerDB> favorite, List<BeerDB> owner, String firstName, String lastName, String email){
         this.favorite = favorite;
         this.owner = owner;
         this.firstName = firstName;

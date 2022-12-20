@@ -10,7 +10,7 @@ service BeerService {
   rpc DeleteBeerDecomposition(DeleteBeerRequest) returns (DeleteBeerResponse) {};
 }
 
-message Ingredient {
+message IngredientBeerRequest {
     string name = 1;
     int32 quantity = 2;
     string unit = 3;
@@ -19,7 +19,7 @@ message Ingredient {
 message CreateBeerRequest {
   string name = 1;
   string description = 2;
-  repeated Ingredient ingredients = 3;
+  repeated IngredientBeerRequest ingredients = 3;
   repeated string methods = 4;
 }
 
@@ -47,7 +47,7 @@ message UpdateBeerRequest {
   string _id = 1;
   string name = 2;
   string description = 3;
-  repeated Ingredient ingredients = 4;
+  repeated IngredientBeerRequest ingredients = 4;
   repeated string methods = 5;
 }
 

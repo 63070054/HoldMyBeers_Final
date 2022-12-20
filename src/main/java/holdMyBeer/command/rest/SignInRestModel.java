@@ -1,14 +1,14 @@
 package holdMyBeer.command.rest;
 
-import holdMyBeer.database.pojo.Beer;
+import holdMyBeer.database.pojo.BeerDB;
 import lombok.Data;
 import java.util.List;
 
 @Data
 public class SignInRestModel {
 
-    private List<Beer> favorite;
-    private List<Beer> owner;
+    private List<BeerDB> favorite;
+    private List<BeerDB> owner;
     private String firstName;
     private String lastName;
     private String imageUrl;

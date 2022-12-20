@@ -1,5 +1,4 @@
 package holdMyBeer.database.pojo;
-import com.proto.prime.Ingredient;
 import holdMyBeer.database.pojo.data.IngredientDB;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -11,7 +10,7 @@ import java.util.List;
 
 @Data
 @Document("Beers")
-public class Beer implements Serializable {
+public class BeerDB implements Serializable {
 
     @Id
     private String _id;
@@ -20,7 +19,7 @@ public class Beer implements Serializable {
     private List<IngredientDB> ingredients;
     private String[] methods;
 
-    public Beer(String _id, String name, String description, List<IngredientDB> ingredients, String[] methods) {
+    public BeerDB(String _id, String name, String description, List<IngredientDB> ingredients, String[] methods) {
         this._id = _id;
         this.name = name;
         this.description = description;
@@ -28,12 +27,12 @@ public class Beer implements Serializable {
         this.methods = methods;
     }
 
-    public Beer(String name, String description, List<IngredientDB> ingredients, String[] methods) {
+    public BeerDB(String name, String description, List<IngredientDB> ingredients, String[] methods) {
         this.name = name;
         this.description = description;
         this.ingredients = ingredients;
         this.methods = methods;
     }
 
-    public Beer() {};
+    public BeerDB() {};
 }

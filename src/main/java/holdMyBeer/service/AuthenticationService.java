@@ -1,8 +1,8 @@
 package holdMyBeer.service;
 
 import com.proto.prime.*;
-import holdMyBeer.database.pojo.Beer;
-import holdMyBeer.database.pojo.User;
+import holdMyBeer.database.pojo.BeerDB;
+import holdMyBeer.database.pojo.UserDB;
 import holdMyBeer.database.pojo.data.IngredientDB;
 import holdMyBeer.database.repository.UserRepository;
 import io.grpc.stub.StreamObserver;
@@ -17,9 +17,9 @@ public class AuthenticationService extends AuthenticationServiceGrpc.Authenticat
     @Autowired
     private UserRepository userRepository;
 
-    public List<IngredientDB> convertIngredientRequestToDB(List<IngredientUser> ingredientsRequest){
+    public List<IngredientDB> convertIngredientRequestToDB(List<IngredientUserRequest> ingredientsRequest){
         List<IngredientDB> ingredientsDB = new ArrayList<>();
-        for (IngredientUser ingredient : ingredientsRequest) {
+        for (IngredientUserRequest ingredient : ingredientsRequest) {
             IngredientDB newIngredient = new IngredientDB();
             newIngredient.set_id(ingredient.getId());
             newIngredient.setName(ingredient.getName());
@@ -32,16 +32,16 @@ public class AuthenticationService extends AuthenticationServiceGrpc.Authenticat
 
     }
 
-    public List<Beer> convertBeerRequestToBeerDB(List<BeerUser> beersRequest){
-        List<Beer> beersDB = new ArrayList<>();
-        for (BeerUser beerUser : beersRequest) {
-            Beer beer = new Beer();
-            beer.set_id(beerUser.getId());
-            beer.setName(beerUser.getName());
-            beer.setDescription(beerUser.getDescription());
-            beer.setIngredients(convertIngredientRequestToDB(beerUser.getIngredientsList()));
-            beer.setMethods(beerUser.getMethodsList().toArray(new String[0]));
-            beersDB.add(beer);
+    public List<BeerDB> convertBeerRequestToBeerDB(List<BeerUserRequest> beersRequest){
+        List<BeerDB> beersDB = new ArrayList<>();
+        for (BeerUserRequest beerUser : beersRequest) {
+            BeerDB beerDB = new BeerDB();
+            beerDB.set_id(beerUser.getId());
+            beerDB.setName(beerUser.getName());
+            beerDB.setDescription(beerUser.getDescription());
+            beerDB.setIngredients(convertIngredientRequestToDB(beerUser.getIngredientsList()));
+            beerDB.setMethods(beerUser.getMethodsList().toArray(new String[0]));
+            beersDB.add(beerDB);
         }
 
         return beersDB;
@@ -52,8 +52,8 @@ public class AuthenticationService extends AuthenticationServiceGrpc.Authenticat
     public void signInDecomposition(SignInRequest request, StreamObserver<SignInResponse> responseObserver) {
         try {
 
-            User user = new User(convertBeerRequestToBeerDB(request.getFavoriteList()), convertBeerRequestToBeerDB(request.getOwnerList()), request.getFirstName(), request.getLastName(), request.getEmail());
-            userRepository.save(user);
+            UserDB userDB = new UserDB(convertBeerRequestToBeerDB(request.getFavoriteList()), convertBeerRequestToBeerDB(request.getOwnerList()), request.getFirstName(), request.getLastName(), request.getEmail());
+            userRepository.save(userDB);
             SignInResponse response = SignInResponse.newBuilder()
                     .setIsSuccess(true)
                     .build();

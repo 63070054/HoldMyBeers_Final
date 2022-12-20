@@ -2,11 +2,10 @@ package holdMyBeer.service;
 
 import com.google.protobuf.ProtocolStringList;
 import com.proto.prime.*;
-import holdMyBeer.database.pojo.Beer;
+import holdMyBeer.database.pojo.BeerDB;
 import holdMyBeer.database.pojo.data.IngredientDB;
 import holdMyBeer.database.repository.BeerRepository;
 import io.grpc.stub.StreamObserver;
-import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +19,9 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
     @Autowired
     private BeerRepository beerRepository;
 
-
-    public List<IngredientDB> convertIngredientRequestToDB(List<Ingredient> ingredientsRequest){
+    public List<IngredientDB> convertIngredientRequestToDB(List<IngredientBeerRequest> ingredientsRequest){
         List<IngredientDB> ingredientsDB = new ArrayList<>();
-        for (Ingredient ingredient : ingredientsRequest) {
+        for (IngredientBeerRequest ingredient : ingredientsRequest) {
             IngredientDB newIngredient = new IngredientDB();
             newIngredient.setName(ingredient.getName());
             newIngredient.setQuantity(ingredient.getQuantity());
@@ -48,8 +46,8 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
 
             String[] methods = convertMethodsRequestToDB(request.getMethodsList());
             List<IngredientDB> ingredientsDB = convertIngredientRequestToDB(request.getIngredientsList());
-            Beer beer = new Beer(request.getName(), request.getDescription(), ingredientsDB, methods);
-            beerRepository.insert(beer);
+            BeerDB beerDB = new BeerDB(request.getName(), request.getDescription(), ingredientsDB, methods);
+            beerRepository.insert(beerDB);
             CreateBeerResponse response = CreateBeerResponse.newBuilder()
                     .setIsSuccess(true)
                     .build();
@@ -67,7 +65,7 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
     @Override
     public void queryBeersDecomposition(QueryBeersRequest request, StreamObserver<QueryBeersResponse> responseObserver) {
         try {
-            List<Beer> beers = beerRepository.findAll();
+            List<BeerDB> beerDBS = beerRepository.findAll();
 
             QueryBeersResponse response =QueryBeersResponse.newBuilder()
                     .setIsSuccess(true)
@@ -89,7 +87,7 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
     @Override
     public void queryBeerByIdDecomposition(QueryBeerByIdRequest request, StreamObserver<QueryBeerByIdResponse> responseObserver) {
         try{
-            Beer beer = beerRepository.findBeerByID(request.getId());
+            BeerDB beerDB = beerRepository.findBeerByID(request.getId());
             QueryBeerByIdResponse response = QueryBeerByIdResponse.newBuilder()
                     .setIsSuccess(true)
                     .build();
@@ -108,8 +106,8 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
         try{
             String[] methods = convertMethodsRequestToDB(request.getMethodsList());
             List<IngredientDB> ingredientsDB = convertIngredientRequestToDB(request.getIngredientsList());
-            Beer beer = new Beer(request.getId(),request.getName(), request.getDescription(), ingredientsDB, methods);
-            beerRepository.save(beer);
+            BeerDB beerDB = new BeerDB(request.getId(),request.getName(), request.getDescription(), ingredientsDB, methods);
+            beerRepository.save(beerDB);
 
 
             UpdateBeerResponse response = UpdateBeerResponse.newBuilder()
@@ -129,8 +127,8 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
     @Override
     public void deleteBeerDecomposition(DeleteBeerRequest request, StreamObserver<DeleteBeerResponse> responseObserver) {
         try{
-            Beer beer = beerRepository.findBeerByID(request.getId());
-            beerRepository.delete(beer);
+            BeerDB beerDB = beerRepository.findBeerByID(request.getId());
+            beerRepository.delete(beerDB);
             DeleteBeerResponse response = DeleteBeerResponse.newBuilder()
                     .setIsSuccess(true)
                     .build();
