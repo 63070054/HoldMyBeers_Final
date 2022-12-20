@@ -14,15 +14,15 @@ message AddBeerToFavoriteRequest {
 
 message AddBeerToFavoriteResponse {
 
+  bool isSuccess = 1;
 
 }
 
 message RemoveBeerToFavoriteRequest {
   string userId = 1;
   string beerId = 2;
-
 }
 
 message RemoveBeerToFavoriteResponse {
-
+  bool isSuccess = 1;
 }

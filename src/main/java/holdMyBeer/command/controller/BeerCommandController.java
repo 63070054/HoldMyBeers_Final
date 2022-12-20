@@ -24,13 +24,9 @@ public class BeerCommandController {
 
     @Autowired
     private CommandGateway commandGateway;
-    private final AuthenticationServiceGrpc.AuthenticationServiceBlockingStub authenticationServiceBlockingStub;
     private final BeerServiceGrpc.BeerServiceBlockingStub beerServiceBlockingStub;
-    private final FavoriteBeerServiceGrpc.FavoriteBeerServiceBlockingStub favoriteBeerServiceBlockingStub;
     public BeerCommandController(ManagedChannel channel){
-        this.authenticationServiceBlockingStub = AuthenticationServiceGrpc.newBlockingStub(channel);
         this.beerServiceBlockingStub = BeerServiceGrpc.newBlockingStub(channel);
-        this.favoriteBeerServiceBlockingStub = FavoriteBeerServiceGrpc.newBlockingStub(channel);
     }
 
     public List<IngredientBeerRequest> convertIngredientRestToRequest(List<IngredientDB> ingredientsFromCommand) {

@@ -1,9 +1,7 @@
 package holdMyBeer.command.aggregate;
 
-import holdMyBeer.command.CreateBeerCommand;
 import holdMyBeer.command.CreateUserCommand;
 import holdMyBeer.database.pojo.BeerDB;
-import holdMyBeer.event.CreateBeerEvent;
 import holdMyBeer.event.CreateUserEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;

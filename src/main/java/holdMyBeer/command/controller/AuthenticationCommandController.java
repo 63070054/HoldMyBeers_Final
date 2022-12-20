@@ -1,7 +1,6 @@
 package holdMyBeer.command.controller;
 
 import com.proto.prime.*;
-import holdMyBeer.command.CreateBeerCommand;
 import holdMyBeer.command.CreateUserCommand;
 import holdMyBeer.command.SignInCommand;
 import holdMyBeer.command.rest.SignInRestModel;
