@@ -11,6 +11,7 @@ public class SignInRestModel {
     private List<BeerDB> owner;
     private String firstName;
     private String lastName;
+    private String email;
     private String imageUrl;
 
 }

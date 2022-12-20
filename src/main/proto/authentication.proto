@@ -28,6 +28,7 @@ message SignInRequest {
   string firstName = 3;
   string lastName = 4;
   string email = 5;
+  string imageUrl = 6;
 
 }
 

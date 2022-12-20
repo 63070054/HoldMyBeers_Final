@@ -1,6 +1,6 @@
 package holdMyBeer.command.rest;
 
-import com.proto.prime.Ingredient;
+
 import holdMyBeer.database.pojo.data.IngredientDB;
 import lombok.Data;
 

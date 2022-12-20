@@ -42,5 +42,7 @@ public class BeerQueryController {
         return isSuccess;
     }
 
+
+
 }
 
