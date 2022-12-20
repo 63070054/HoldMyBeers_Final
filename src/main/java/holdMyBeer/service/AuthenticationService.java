@@ -3,7 +3,7 @@ package holdMyBeer.service;
 import com.proto.prime.*;
 import holdMyBeer.database.pojo.BeerDB;
 import holdMyBeer.database.pojo.UserDB;
-import holdMyBeer.database.pojo.data.IngredientDB;
+import holdMyBeer.database.pojo.IngredientDB;
 import holdMyBeer.database.repository.UserRepository;
 import io.grpc.stub.StreamObserver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,22 +43,30 @@ public class AuthenticationService extends AuthenticationServiceGrpc.Authenticat
             beerDB.setMethods(beerUser.getMethodsList().toArray(new String[0]));
             beersDB.add(beerDB);
         }
-
         return beersDB;
+    }
 
+    public boolean createUser(SignInRequest request){
+        try {
+            return true;
+        } catch (Exception e){
+
+            return false;
+        }
+    }
+
+    public boolean userExists(String _id){
+        System.out.println(userRepository.existsById(_id));
+        return userRepository.existsById(_id);
     }
 
     @Override
     public void signInDecomposition(SignInRequest request, StreamObserver<SignInResponse> responseObserver) {
         try {
-
-            UserDB userDB = new UserDB(convertBeerRequestToBeerDB(request.getFavoriteList()), convertBeerRequestToBeerDB(request.getOwnerList()), request.getFirstName(), request.getLastName(), request.getEmail());
-            userRepository.save(userDB);
             SignInResponse response = SignInResponse.newBuilder()
                     .setIsSuccess(true)
                     .build();
             responseObserver.onNext(response);
-
 
         } catch (Exception e){
 
@@ -69,7 +77,47 @@ public class AuthenticationService extends AuthenticationServiceGrpc.Authenticat
 
         }
 
+        responseObserver.onCompleted();
+
     }
 
 
+    @Override
+    public void createUserDecomposition(SignInRequest request, StreamObserver<SignInResponse> responseObserver) {
+        try {
+            UserDB userDB = new UserDB(request.getGoogleId(), convertBeerRequestToBeerDB(request.getFavoriteList()), convertBeerRequestToBeerDB(request.getOwnerList()), request.getFirstName(), request.getLastName(), request.getEmail());
+            userRepository.insert(userDB);
+
+            SignInResponse response = SignInResponse.newBuilder()
+                    .setIsSuccess(true)
+                    .build();
+            responseObserver.onNext(response);
+
+        } catch (Exception e){
+            SignInResponse response = SignInResponse.newBuilder()
+                    .setIsSuccess(false)
+                    .build();
+            responseObserver.onNext(response);
+        }
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void checkUserExists(CheckUserExistRequest request, StreamObserver<CheckUserExistResponse> responseObserver) {
+        try {
+            CheckUserExistResponse response = CheckUserExistResponse.newBuilder()
+                    .setIsSuccess(userExists(request.getId()))
+                    .build();
+
+            responseObserver.onNext(response);
+
+        } catch(Exception e){
+            CheckUserExistResponse response = CheckUserExistResponse.newBuilder()
+                    .setIsSuccess(false)
+                    .build();
+
+            responseObserver.onNext(response);
+        }
+        responseObserver.onCompleted();
+    }
 }

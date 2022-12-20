@@ -2,7 +2,7 @@ package holdMyBeer.command.aggregate;
 
 import holdMyBeer.command.CreateBeerCommand;
 import holdMyBeer.event.CreateBeerEvent;
-import holdMyBeer.database.pojo.data.IngredientDB;
+import holdMyBeer.database.pojo.IngredientDB;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;

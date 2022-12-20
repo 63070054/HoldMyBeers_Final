@@ -1,13 +1,14 @@
-package holdMyBeer.command.rest;
+package holdMyBeer.event;
 
 import holdMyBeer.database.pojo.BeerDB;
 import lombok.Data;
+
 import java.util.List;
 
 @Data
-public class SignInRestModel {
+public class CreateUserEvent {
 
-    private String googleId;
+    private String _id;
     private List<BeerDB> favorite;
     private List<BeerDB> owner;
     private String firstName;

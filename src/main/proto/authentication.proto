@@ -4,6 +4,16 @@ option java_multiple_files = true;
 
 service AuthenticationService {
   rpc SignInDecomposition(SignInRequest) returns (SignInResponse) {};
+  rpc CreateUserDecomposition(SignInRequest) returns (SignInResponse) {};
+  rpc CheckUserExists(CheckUserExistRequest) returns (CheckUserExistResponse) {};
+}
+
+message CheckUserExistRequest {
+  string _id = 1;
+}
+
+message CheckUserExistResponse {
+  bool isSuccess = 1;
 }
 
 message IngredientUserRequest {
@@ -23,12 +33,13 @@ message BeerUserRequest {
 
 message SignInRequest {
 
-  repeated BeerUserRequest favorite = 1;
-  repeated BeerUserRequest owner = 2;
-  string firstName = 3;
-  string lastName = 4;
-  string email = 5;
-  string imageUrl = 6;
+  string googleId = 1;
+  repeated BeerUserRequest favorite = 2;
+  repeated BeerUserRequest owner = 3;
+  string firstName = 4;
+  string lastName = 5;
+  string email = 6;
+  string imageUrl = 7;
 
 }
 

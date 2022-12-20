@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 import holdMyBeer.database.pojo.UserDB;
 @Repository
 public interface UserRepository extends MongoRepository<UserDB, String> {
+
 }

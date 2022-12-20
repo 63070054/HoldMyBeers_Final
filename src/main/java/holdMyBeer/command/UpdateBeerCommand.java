@@ -1,6 +1,6 @@
 package holdMyBeer.command;
 
-import holdMyBeer.database.pojo.data.IngredientDB;
+import holdMyBeer.database.pojo.IngredientDB;
 import lombok.Builder;
 import lombok.Data;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;

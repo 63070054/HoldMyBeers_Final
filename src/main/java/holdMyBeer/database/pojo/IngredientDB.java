@@ -1,4 +1,4 @@
-package holdMyBeer.database.pojo.data;
+package holdMyBeer.database.pojo;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;

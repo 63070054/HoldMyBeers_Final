@@ -3,7 +3,7 @@ package holdMyBeer.service;
 import com.google.protobuf.ProtocolStringList;
 import com.proto.prime.*;
 import holdMyBeer.database.pojo.BeerDB;
-import holdMyBeer.database.pojo.data.IngredientDB;
+import holdMyBeer.database.pojo.IngredientDB;
 import holdMyBeer.database.repository.BeerRepository;
 import io.grpc.stub.StreamObserver;
 import org.springframework.beans.factory.annotation.Autowired;

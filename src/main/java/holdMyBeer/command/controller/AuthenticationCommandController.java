@@ -1,10 +1,12 @@
 package holdMyBeer.command.controller;
 
 import com.proto.prime.*;
-import holdMyBeer.command.DeleteBeerCommand;
+import holdMyBeer.command.CreateBeerCommand;
+import holdMyBeer.command.CreateUserCommand;
+import holdMyBeer.command.SignInCommand;
 import holdMyBeer.command.rest.SignInRestModel;
 import holdMyBeer.database.pojo.BeerDB;
-import holdMyBeer.database.pojo.data.IngredientDB;
+import holdMyBeer.database.pojo.IngredientDB;
 import io.grpc.ManagedChannel;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +22,12 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
-public class UserCommandController {
+public class AuthenticationCommandController {
     @Autowired
     private CommandGateway commandGateway;
     private final AuthenticationServiceGrpc.AuthenticationServiceBlockingStub authenticationServiceBlockingStub;
 
-    public UserCommandController(ManagedChannel channel){
+    public AuthenticationCommandController(ManagedChannel channel){
         this.authenticationServiceBlockingStub = AuthenticationServiceGrpc.newBlockingStub(channel);
     }
 
@@ -45,21 +47,8 @@ public class UserCommandController {
 
     }
 
-//    public List<Ingredient> convertIngredientRestToRequest(List<IngredientDB> ingredientsFromCommand) {
-//        List<Ingredient> ingredientsGRPC = new ArrayList<>();
-//
-//        for (IngredientDB ingredient : ingredientsFromCommand) {
-//            Ingredient newIngredient = Ingredient.newBuilder()
-//                    .setName(ingredient.getName())
-//                    .setQuantity(ingredient.getQuantity())
-//                    .setUnit(ingredient.getUnit())
-//                    .build();
-//            ingredientsGRPC.add(newIngredient);
-//        }
-//        return ingredientsGRPC;
-//    }
-
     public List<BeerUserRequest> convertBeerDBToRequest(List<BeerDB> beersDB){
+
         List<BeerUserRequest> beersUser = new ArrayList<>();
         for (BeerDB beerDB : beersDB) {
             BeerUserRequest newBeersUser = BeerUserRequest.newBuilder()
@@ -76,11 +65,12 @@ public class UserCommandController {
 
     }
 
-    @PostMapping
+    @PostMapping("login")
     public boolean signIn(@RequestBody SignInRestModel user) {
-        try {
 
+        try {
             SignInRequest request = SignInRequest.newBuilder()
+                    .setGoogleId(user.getGoogleId())
                     .addAllFavorite(convertBeerDBToRequest(user.getFavorite()))
                     .addAllOwner(convertBeerDBToRequest(user.getOwner()))
                     .setFirstName(user.getFirstName())
@@ -89,8 +79,42 @@ public class UserCommandController {
                     .setImageUrl(user.getImageUrl())
                     .build();
             authenticationServiceBlockingStub.signInDecomposition(request);
+
+            SignInCommand signInCommand = SignInCommand.builder()
+                    ._id(UUID.randomUUID().toString())
+                    .favorite(user.getFavorite())
+                    .owner(user.getOwner())
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
+                    .email(user.getEmail())
+                    .imageUrl(user.getImageUrl())
+                    .build();
+            commandGateway.sendAndWait(signInCommand);
+
+
+            CheckUserExistRequest checkRequest = CheckUserExistRequest.newBuilder()
+                    .setId(user.getGoogleId())
+                    .build();
+            boolean isUserExist = authenticationServiceBlockingStub.checkUserExists(checkRequest).getIsSuccess();
+
+            if(!isUserExist) {
+                authenticationServiceBlockingStub.createUserDecomposition(request);
+
+                CreateUserCommand createUserCommandcommand = CreateUserCommand.builder()
+                        ._id(UUID.randomUUID().toString())
+                        .favorite(user.getFavorite())
+                        .owner(user.getOwner())
+                        .firstName(user.getFirstName())
+                        .lastName(user.getLastName())
+                        .email(user.getEmail())
+                        .imageUrl(user.getImageUrl())
+                        .build();
+                commandGateway.sendAndWait(createUserCommandcommand);
+
+            }
             return true;
         } catch (Exception e) {
+            System.out.println("API ERROR");
             System.out.println(e);
             return false;
         }

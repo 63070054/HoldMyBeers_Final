@@ -7,7 +7,7 @@ import holdMyBeer.command.UpdateBeerCommand;
 import holdMyBeer.command.rest.CreateBeerRestModel;
 import holdMyBeer.command.rest.DeleteBeerRestModel;
 import holdMyBeer.command.rest.UpdateBeerRestModel;
-import holdMyBeer.database.pojo.data.IngredientDB;
+import holdMyBeer.database.pojo.IngredientDB;
 import io.grpc.ManagedChannel;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +61,7 @@ public class BeerCommandController {
                         .build();
                 beerServiceBlockingStub.createBeerDecomposition(request);
 
-            CreateBeerCommand command = CreateBeerCommand.builder()
+                CreateBeerCommand command = CreateBeerCommand.builder()
                     ._id(UUID.randomUUID().toString())
                     .name(beer.getName())
                     .description(beer.getDescription())

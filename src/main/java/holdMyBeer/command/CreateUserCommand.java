@@ -1,13 +1,18 @@
-package holdMyBeer.command.rest;
+package holdMyBeer.command;
 
 import holdMyBeer.database.pojo.BeerDB;
+import lombok.Builder;
 import lombok.Data;
+import org.axonframework.modelling.command.TargetAggregateIdentifier;
+
 import java.util.List;
 
+@Builder
 @Data
-public class SignInRestModel {
+public class CreateUserCommand {
 
-    private String googleId;
+    @TargetAggregateIdentifier
+    private String _id;
     private List<BeerDB> favorite;
     private List<BeerDB> owner;
     private String firstName;

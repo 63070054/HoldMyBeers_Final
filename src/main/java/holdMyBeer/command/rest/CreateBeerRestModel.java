@@ -1,7 +1,7 @@
 package holdMyBeer.command.rest;
 
 
-import holdMyBeer.database.pojo.data.IngredientDB;
+import holdMyBeer.database.pojo.IngredientDB;
 import lombok.Data;
 
 import java.util.List;
