@@ -7,7 +7,7 @@ service AuthenticationService {
 }
 
 message SignInRequest {
-
+  string _id =1;
 }
 
 message SignInResponse {
