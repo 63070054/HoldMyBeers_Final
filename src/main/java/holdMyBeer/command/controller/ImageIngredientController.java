@@ -1,6 +1,8 @@
 package holdMyBeer.command.controller;
 
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,13 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/image/ingerdient")
 public class ImageIngredientController {
-
     @Autowired
     private RabbitTemplate rabbitTemplate;
     @GetMapping("/{name}")
     public String queryImageIngerdient(@PathVariable String name) {
-        String imageURL = (String) rabbitTemplate.convertSendAndReceive("BeerExchanges", "sentImage", name);
-        return imageURL;
+        System.out.println("succress Publisher queryImageIngerdient: "+ name);
+        String image = (String) rabbitTemplate.convertSendAndReceive("BeerExchanges", "sentImage", name);
+//        System.out.println(image);
+        return image;
     }
 
 }
