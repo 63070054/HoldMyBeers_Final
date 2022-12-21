@@ -6,6 +6,7 @@ service AuthenticationService {
   rpc SignInDecomposition(SignInRequest) returns (SignInResponse) {};
   rpc CreateUserDecomposition(SignInRequest) returns (SignInResponse) {};
   rpc CheckUserExists(CheckUserExistRequest) returns (CheckUserExistResponse) {};
+  rpc GetUserInfo(GetUserRequest) returns (GetUserResponse) {};
 }
 
 message CheckUserExistRequest {
@@ -49,3 +50,35 @@ message SignInResponse {
   bool isSuccess = 1;
 
 }
+
+message IngredientUserInfo {
+  string name = 1;
+  int32 quantity = 2;
+  string unit = 3;
+}
+
+message BeerUserInfo {
+  string _id = 1;
+  string name = 2;
+  string description = 3;
+  repeated IngredientUserInfo ingredients = 4;
+  repeated string methods = 5;
+  string imageUrl = 6;
+  string userId = 7;
+}
+
+message GetUserRequest {
+  string userId = 1;
+}
+
+message GetUserResponse {
+  string googleId = 1;
+  repeated BeerUserInfo favoritie = 2;
+  repeated BeerUserInfo owner = 3;
+  string firstName = 4;
+  string lastName = 5;
+  string email = 6;
+  string imageUrl = 7;
+}
+
+

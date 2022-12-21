@@ -20,16 +20,16 @@ public class UserDB implements Serializable {
     private String firstName;
     private String lastName;
     private String email;
-    private String userId;
+    private String imageUrl;
 
-    public UserDB(String googleId, List<BeerDB> favorite, List<BeerDB> owner, String firstName, String lastName, String email, String userId){
+    public UserDB(String googleId, List<BeerDB> favorite, List<BeerDB> owner, String firstName, String lastName, String email, String imageUrl){
         this.googleId = googleId;
         this.favorite = favorite;
         this.owner = owner;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.userId = userId;
+        this.imageUrl = imageUrl;
     }
 
 

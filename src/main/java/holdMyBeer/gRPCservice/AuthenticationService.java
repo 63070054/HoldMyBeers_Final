@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -47,6 +48,38 @@ public class AuthenticationService extends AuthenticationServiceGrpc.Authenticat
         return beersDB;
     }
 
+    public List<IngredientUserInfo> convertIngredientDBToUserInfo(List<IngredientDB> ingerdientsDB){
+        List<IngredientUserInfo> ingredientsUserInfo = new ArrayList<>();
+        for (IngredientDB ingredient : ingerdientsDB) {
+            IngredientUserInfo newIngredient = IngredientUserInfo.newBuilder()
+                    .setName(ingredient.getName())
+                    .setQuantity(ingredient.getQuantity())
+                    .setUnit(ingredient.getUnit())
+                    .build();
+            ingredientsUserInfo.add(newIngredient);
+        }
+
+        return ingredientsUserInfo;
+
+    }
+
+    public List<BeerUserInfo> convertBeerDBToUserInfo(List<BeerDB> beersDB){
+        List<BeerUserInfo> beersUserInfo = new ArrayList<>();
+        for (BeerDB beerDB : beersDB) {
+            BeerUserInfo beer = BeerUserInfo.newBuilder()
+                    .setId(beerDB.get_id())
+                    .setName(beerDB.getName())
+                    .setDescription(beerDB.getDescription())
+                    .addAllIngredients(convertIngredientDBToUserInfo(beerDB.getIngredients()))
+                    .addAllMethods(Arrays.asList(beerDB.getMethods()))
+                    .setImageUrl(beerDB.getImageUrl())
+                    .setUserId(beerDB.getUserId())
+                    .build();
+            beersUserInfo.add(beer);
+        }
+        return beersUserInfo;
+    }
+
     public boolean userExists(String _id){
         return userRepository.existsById(_id);
     }
@@ -77,6 +110,7 @@ public class AuthenticationService extends AuthenticationServiceGrpc.Authenticat
     public void createUserDecomposition(SignInRequest request, StreamObserver<SignInResponse> responseObserver) {
         try {
             UserDB userDB = new UserDB(request.getGoogleId(), convertBeerRequestToBeerDB(request.getFavoriteList()), convertBeerRequestToBeerDB(request.getOwnerList()), request.getFirstName(), request.getLastName(), request.getEmail(), request.getImageUrl());
+            System.out.println(userDB);
             userRepository.insert(userDB);
 
             SignInResponse response = SignInResponse.newBuilder()
@@ -108,6 +142,45 @@ public class AuthenticationService extends AuthenticationServiceGrpc.Authenticat
                     .build();
 
             responseObserver.onNext(response);
+        }
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getUserInfo(GetUserRequest request, StreamObserver<GetUserResponse> responseObserver) {
+        try {
+
+            String userId = request.getUserId();
+            UserDB userDB = userRepository.findUserById(userId);
+            System.out.println(userId);
+            System.out.println(userDB);
+
+            GetUserResponse response = GetUserResponse.newBuilder()
+                    .setGoogleId(userDB.getGoogleId())
+                    .addAllFavoritie(convertBeerDBToUserInfo(userDB.getFavorite()))
+                    .addAllOwner(convertBeerDBToUserInfo(userDB.getOwner()))
+                    .setFirstName(userDB.getFirstName())
+                    .setLastName(userDB.getLastName())
+                    .setEmail(userDB.getEmail())
+                    .setImageUrl(userDB.getImageUrl())
+                    .build();
+
+            responseObserver.onNext(response);
+
+        } catch (Exception e){
+            System.out.println("GRPC ERROR");
+            GetUserResponse response = GetUserResponse.newBuilder()
+                    .setGoogleId("")
+                    .addAllFavoritie(null)
+                    .addAllOwner(null)
+                    .setFirstName("")
+                    .setLastName("")
+                    .setEmail("")
+                    .setImageUrl("")
+                    .build();
+
+            responseObserver.onNext(response);
+
         }
         responseObserver.onCompleted();
     }

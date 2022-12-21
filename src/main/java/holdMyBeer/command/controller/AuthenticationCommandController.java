@@ -6,13 +6,12 @@ import holdMyBeer.command.SignInCommand;
 import holdMyBeer.command.rest.SignInRestModel;
 import holdMyBeer.database.pojo.BeerDB;
 import holdMyBeer.database.pojo.IngredientDB;
+import holdMyBeer.database.pojo.UserDB;
+import holdMyBeer.database.repository.UserRepository;
 import io.grpc.ManagedChannel;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +23,8 @@ import java.util.UUID;
 public class AuthenticationCommandController {
     @Autowired
     private CommandGateway commandGateway;
+    @Autowired
+    private UserRepository userRepository;
     private final AuthenticationServiceGrpc.AuthenticationServiceBlockingStub authenticationServiceBlockingStub;
 
     public AuthenticationCommandController(ManagedChannel channel){
@@ -63,6 +64,36 @@ public class AuthenticationCommandController {
 
         return beersUser;
 
+    }
+
+    public List<IngredientDB> convertIngredientUserInfoToDB(List<IngredientUserInfo> ingredientsUser){
+        List<IngredientDB> ingredientsUserInfo = new ArrayList<>();
+        for (IngredientUserInfo ingredient : ingredientsUser) {
+            IngredientDB newIngredient = new IngredientDB();
+            newIngredient.setName(ingredient.getName());
+            newIngredient.setQuantity(ingredient.getQuantity());
+            newIngredient.setUnit(ingredient.getUnit());
+            ingredientsUserInfo.add(newIngredient);
+        }
+
+        return ingredientsUserInfo;
+
+    }
+
+    public List<BeerDB> convertBeerUserInfoToDB(List<BeerUserInfo> beersUserInfo){
+        List<BeerDB> beersDB = new ArrayList<>();
+        for (BeerUserInfo beerUser : beersUserInfo) {
+            BeerDB beer = new BeerDB();
+            beer.set_id(beerUser.getId());
+            beer.setName(beerUser.getName());
+            beer.setDescription(beerUser.getDescription());
+            beer.setIngredients(convertIngredientUserInfoToDB(beerUser.getIngredientsList()));
+            beer.setMethods(beerUser.getMethodsList().toArray(new String[0]));
+            beer.setImageUrl(beerUser.getImageUrl());
+            beer.setUserId(beerUser.getUserId());
+            beersDB.add(beer);
+        }
+        return beersDB;
     }
 
     @PostMapping("login")
@@ -116,5 +147,21 @@ public class AuthenticationCommandController {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @GetMapping("{id}")
+    public UserDB getUserInfo(@PathVariable String id) {
+        try {
+            GetUserRequest request = GetUserRequest.newBuilder()
+                    .setUserId(id)
+                    .build();
+
+            GetUserResponse response = authenticationServiceBlockingStub.getUserInfo(request);
+            return new UserDB(response.getGoogleId(), convertBeerUserInfoToDB(response.getFavoritieList()), convertBeerUserInfoToDB(response.getOwnerList()), response.getFirstName(), response.getLastName(), response.getEmail(), response.getImageUrl());
+        } catch (Exception e){
+            System.out.println("ERROR API");
+            return null;
+        }
+
     }
 }
