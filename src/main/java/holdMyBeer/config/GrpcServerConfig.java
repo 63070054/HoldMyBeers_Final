@@ -18,8 +18,6 @@ public class GrpcServerConfig {
     private BeerService beerService;
     @Autowired
     private FavoriteBeerService favoriteBeerService;
-
-
     @Bean
     public ServerBuilder<?> ServerBuilder(MongoClient mongoClient) {
         ServerBuilder<?> serverBuilder = ServerBuilder.forPort(50000);
