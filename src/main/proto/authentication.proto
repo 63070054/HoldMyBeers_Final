@@ -17,10 +17,9 @@ message CheckUserExistResponse {
 }
 
 message IngredientUserRequest {
-  string _id = 1;
-  string name = 2;
-  int32 quantity = 3;
-  string unit = 4;
+  string name = 1;
+  int32 quantity = 2;
+  string unit = 3;
 }
 
 message BeerUserRequest {
@@ -30,6 +29,7 @@ message BeerUserRequest {
   repeated IngredientUserRequest ingredients = 4;
   repeated string methods = 5;
   string imageUrl = 6;
+  string userId = 7;
 }
 
 message SignInRequest {

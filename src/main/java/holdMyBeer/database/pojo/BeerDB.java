@@ -19,22 +19,25 @@ public class BeerDB implements Serializable {
     private List<IngredientDB> ingredients;
     private String[] methods;
     private String imageUrl;
+    private String userId;
 
-    public BeerDB(String _id, String name, String description, List<IngredientDB> ingredients, String[] methods, String imageUrl) {
+    public BeerDB(String _id, String name, String description, List<IngredientDB> ingredients, String[] methods, String imageUrl, String userId) {
         this._id = _id;
         this.name = name;
         this.description = description;
         this.ingredients = ingredients;
         this.methods = methods;
         this.imageUrl = imageUrl;
+        this.userId = userId;
     }
 
-    public BeerDB(String name, String description, List<IngredientDB> ingredients, String[] methods, String imageUrl) {
+    public BeerDB(String name, String description, List<IngredientDB> ingredients, String[] methods, String imageUrl, String userId) {
         this.name = name;
         this.description = description;
         this.ingredients = ingredients;
         this.methods = methods;
         this.imageUrl = imageUrl;
+        this.userId = userId;
     }
 
     public BeerDB() {};

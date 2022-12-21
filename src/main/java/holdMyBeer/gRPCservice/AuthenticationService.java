@@ -21,7 +21,6 @@ public class AuthenticationService extends AuthenticationServiceGrpc.Authenticat
         List<IngredientDB> ingredientsDB = new ArrayList<>();
         for (IngredientUserRequest ingredient : ingredientsRequest) {
             IngredientDB newIngredient = new IngredientDB();
-            newIngredient.set_id(ingredient.getId());
             newIngredient.setName(ingredient.getName());
             newIngredient.setQuantity(ingredient.getQuantity());
             newIngredient.setUnit(ingredient.getUnit());
@@ -42,6 +41,7 @@ public class AuthenticationService extends AuthenticationServiceGrpc.Authenticat
             beerDB.setIngredients(convertIngredientRequestToDB(beerUser.getIngredientsList()));
             beerDB.setMethods(beerUser.getMethodsList().toArray(new String[0]));
             beerDB.setImageUrl(beerUser.getImageUrl());
+            beerDB.setUserId(beerUser.getUserId());
             beersDB.add(beerDB);
         }
         return beersDB;
@@ -76,7 +76,7 @@ public class AuthenticationService extends AuthenticationServiceGrpc.Authenticat
     @Override
     public void createUserDecomposition(SignInRequest request, StreamObserver<SignInResponse> responseObserver) {
         try {
-            UserDB userDB = new UserDB(request.getGoogleId(), convertBeerRequestToBeerDB(request.getFavoriteList()), convertBeerRequestToBeerDB(request.getOwnerList()), request.getFirstName(), request.getLastName(), request.getEmail());
+            UserDB userDB = new UserDB(request.getGoogleId(), convertBeerRequestToBeerDB(request.getFavoriteList()), convertBeerRequestToBeerDB(request.getOwnerList()), request.getFirstName(), request.getLastName(), request.getEmail(), request.getImageUrl());
             userRepository.insert(userDB);
 
             SignInResponse response = SignInResponse.newBuilder()

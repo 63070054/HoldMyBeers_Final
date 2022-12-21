@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class DeleteBeerRestModel {
 
-    private String _id;
+    private String beerId;
+    private String userId;
 
 }

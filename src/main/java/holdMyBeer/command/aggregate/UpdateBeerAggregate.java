@@ -21,6 +21,7 @@ public class UpdateBeerAggregate {
     private List<IngredientDB> ingredients;
     private String[] methods;
     private String imageUrl;
+    private String userId;
 
     public UpdateBeerAggregate(){
 
@@ -40,5 +41,6 @@ public class UpdateBeerAggregate {
         this.ingredients = event.getIngredients();
         this.methods = event.getMethods();
         this.imageUrl = event.getImageUrl();
+        this.userId = event.getUserId();
     }
 }

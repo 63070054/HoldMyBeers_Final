@@ -13,5 +13,6 @@ public class CreateBeerRestModel {
     private List<IngredientDB> ingredients;
     private String[] methods;
     private String imageUrl;
+    private String userId;
 
 }
