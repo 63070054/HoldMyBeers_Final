@@ -1,31 +1,39 @@
 package holdMyBeer.consumer;
 
+import org.bson.json.JsonObject;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
+
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ImageIngerdientConsumer {
     @RabbitListener(queues = "ImageQueue")
-    public String queryImageIngerdient(String name){
-        try{
-            URL url = new URL("https://api.example.com/endpoint?param1=value1&param2=value2");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+    public String queryImageIngerdient(String name) throws SerpApiSearchException{
+        Map<String, String> parameter = new HashMap<>();
 
-            // Read the response
-            String response = "";
-            String line;
-            while ((line = reader.readLine()) != null) {
-                response += line;
-            }
-            reader.close();
+        parameter.put("api_key", "bfa1a575995ef617d865c9e71066efa62825feee0fcde9408c973d6824ea932c");
+        parameter.put("device", "desktop");
+        parameter.put("engine", "google");
+        parameter.put("q", "Coffee");
+        parameter.put("location", "Austin, Texas, United States");
+        parameter.put("google_domain", "google.com");
+        parameter.put("gl", "us");
+        parameter.put("hl", "en");
+        parameter.put("tbm", "isch");
+        parameter.put("ijn", "1");
 
-            // Print the response
-            System.out.println(response);
+        GoogleSearch search = new GoogleSearch(parameter);
+
+        try
+        {
+            JsonObject results = search.getJson();
         }
-        catch (Exception e){
-            //return default image
+        catch (SerpApiClientException ex)
+        {
+            Console.WriteLine("Exception:");
+            Console.WriteLine(ex.ToString());
         }
     }
 }
