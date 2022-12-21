@@ -12,4 +12,5 @@ public class CreateBeerEvent {
     private List<IngredientDB> ingredients;
     private String[] methods;
     private String imageUrl;
+    private String userId;
 }

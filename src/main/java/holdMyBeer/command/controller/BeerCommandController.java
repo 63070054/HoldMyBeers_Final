@@ -47,7 +47,7 @@ public class BeerCommandController {
     @PostMapping
     public boolean createBeer(@RequestBody CreateBeerRestModel beer){
             try {
-
+                System.out.println("API CREATE");
                 List<IngredientBeerRequest> ingredientsGRPC = convertIngredientRestToRequest(beer.getIngredients());
                 CreateBeerRequest request = CreateBeerRequest.newBuilder()
                         .setName(beer.getName())
@@ -55,6 +55,7 @@ public class BeerCommandController {
                         .addAllIngredients(ingredientsGRPC)
                         .addAllMethods(Arrays.asList(beer.getMethods()))
                         .setImageUrl(beer.getImageUrl())
+                        .setUserId(beer.getUserId())
                         .build();
                 beerServiceBlockingStub.createBeerDecomposition(request);
 
@@ -65,6 +66,7 @@ public class BeerCommandController {
                     .ingredients(beer.getIngredients())
                     .methods(beer.getMethods())
                     .imageUrl(beer.getImageUrl())
+                    .userId(beer.getUserId())
                     .build();
                 commandGateway.sendAndWait(command);
                 return true;
@@ -86,7 +88,9 @@ public class BeerCommandController {
                     .addAllIngredients(ingredientsGRPC)
                     .addAllMethods(Arrays.asList(beer.getMethods()))
                     .setImageUrl(beer.getImageUrl())
+                    .setUserId(beer.getUserId())
                     .build();
+            System.out.println(request);
             beerServiceBlockingStub.updateBeerDecomposition(request);
 
             UpdateBeerCommand command = UpdateBeerCommand.builder()
@@ -96,11 +100,13 @@ public class BeerCommandController {
                     .ingredients(beer.getIngredients())
                     .methods(beer.getMethods())
                     .imageUrl(beer.getImageUrl())
+                    .userId(beer.getUserId())
                     .build();
             commandGateway.sendAndWait(command);
 
             return true;
         } catch (Exception e){
+            System.out.println(e);
             return false;
         }
     }
@@ -109,14 +115,16 @@ public class BeerCommandController {
     @DeleteMapping
     public boolean deleteBeer(@RequestBody DeleteBeerRestModel beer) {
         try {
-
             DeleteBeerRequest request = DeleteBeerRequest.newBuilder()
-                    .setId(beer.get_id())
+                    .setBeerId(beer.getBeerId())
+                    .setUserId(beer.getUserId())
                     .build();
             beerServiceBlockingStub.deleteBeerDecomposition(request);
 
             DeleteBeerCommand command = DeleteBeerCommand.builder()
                     ._id(UUID.randomUUID().toString())
+                    .beerId(beer.getBeerId())
+                    .userId(beer.getUserId())
                     .build();
             commandGateway.sendAndWait(command);
 

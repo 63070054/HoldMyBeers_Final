@@ -22,6 +22,7 @@ public class CreateBeerAggregate {
     private List<IngredientDB>  ingredients;
     private String[] methods;
     private String imageUrl;
+    private String userId;
 
     public CreateBeerAggregate(){
 
@@ -42,5 +43,6 @@ public class CreateBeerAggregate {
        this.ingredients = event.getIngredients();
        this.methods = event.getMethods();
        this.imageUrl = event.getImageUrl();
+       this.userId = event.getUserId();
    }
 }

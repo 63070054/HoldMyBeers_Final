@@ -34,7 +34,6 @@ public class AuthenticationCommandController {
         List<IngredientUserRequest> ingredientsRequest = new ArrayList<>();
         for (IngredientDB ingredient : ingredientsDB) {
             IngredientUserRequest newIngredient = IngredientUserRequest.newBuilder()
-                    .setId(String.valueOf(ingredient.get_id()))
                     .setName(ingredient.getName())
                     .setQuantity(ingredient.getQuantity())
                     .setUnit(ingredient.getUnit())
@@ -56,7 +55,9 @@ public class AuthenticationCommandController {
                 .setDescription(beerDB.getDescription())
                 .addAllIngredients(convertIngredientDBToRequest(beerDB.getIngredients()))
                 .addAllMethods(Arrays.asList(beerDB.getMethods()))
-                    .build();
+                .setImageUrl(beerDB.getImageUrl())
+                .setUserId(beerDB.getUserId())
+                .build();
             beersUser.add(newBeersUser);
         }
 
@@ -113,8 +114,6 @@ public class AuthenticationCommandController {
             }
             return true;
         } catch (Exception e) {
-            System.out.println("API ERROR");
-            System.out.println(e);
             return false;
         }
     }

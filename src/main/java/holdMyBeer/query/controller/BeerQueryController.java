@@ -43,6 +43,8 @@ public class BeerQueryController {
             beerDB.setDescription(beerUser.getDescription());
             beerDB.setIngredients(convertIngredientQueryResponseToDB(beerUser.getIngredientsList()));
             beerDB.setMethods(beerUser.getMethodsList().toArray(new String[0]));
+            beerDB.setImageUrl(beerUser.getImageUrl());
+            beerDB.setUserId(beerUser.getUserId());
             beersDB.add(beerDB);
         }
         return beersDB;
@@ -58,9 +60,9 @@ public class BeerQueryController {
 
     @GetMapping("/{id}")
     public BeerDB queryBeerByIdDecomposition(@PathVariable String id) {
-        QueryBeerByIdRequest beersRequest = QueryBeerByIdRequest.newBuilder().setId(id).build();
+        QueryBeerByIdRequest beersRequest = QueryBeerByIdRequest.newBuilder().setBeerId(id).build();
         BeerQueryResponse response = blockingStub.queryBeerByIdDecomposition(beersRequest).getBeer();
-        return new BeerDB(response.getId(), response.getName(), response.getDescription(), convertIngredientQueryResponseToDB(response.getIngredientsList()), response.getMethodsList().toArray(new String[0]), response.getImageUrl());
+        return new BeerDB(response.getId(), response.getName(), response.getDescription(), convertIngredientQueryResponseToDB(response.getIngredientsList()), response.getMethodsList().toArray(new String[0]), response.getImageUrl(), response.getUserId());
     }
 
 

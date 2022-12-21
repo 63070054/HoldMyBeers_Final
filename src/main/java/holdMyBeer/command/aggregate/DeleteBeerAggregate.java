@@ -13,7 +13,8 @@ import org.springframework.beans.BeanUtils;
 public class DeleteBeerAggregate {
     @AggregateIdentifier
     private String _id;
-
+    private String beerId;
+    private String userId;
     public DeleteBeerAggregate(){
 
     }
@@ -28,6 +29,8 @@ public class DeleteBeerAggregate {
     @EventSourcingHandler
     public void onDeleteBeerEvent(DeleteBeerEvent event){
         this._id = event.get_id();
+        this.beerId = event.getBeerId();
+        this.userId = event.getUserId();
     }
 
 }
