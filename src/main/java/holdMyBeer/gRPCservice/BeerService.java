@@ -1,4 +1,4 @@
-package holdMyBeer.service;
+package holdMyBeer.gRPCservice;
 
 import com.google.protobuf.ProtocolStringList;
 import com.proto.prime.*;
@@ -18,6 +18,42 @@ import java.util.List;
 public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
     @Autowired
     private BeerRepository beerRepository;
+
+    public List<IngredientQueryResponse> convertIngredientDBToQueryResponse(List<IngredientDB> ingredientsDB){
+        List<IngredientQueryResponse> ingredientsResponse = new ArrayList<>();
+        for (IngredientDB ingredient : ingredientsDB) {
+            IngredientQueryResponse newIngredient = IngredientQueryResponse.newBuilder()
+                    .setName(ingredient.getName())
+                    .setQuantity(ingredient.getQuantity())
+                    .setUnit(ingredient.getUnit())
+                    .build();
+            ingredientsResponse.add(newIngredient);
+        }
+
+        return ingredientsResponse;
+
+    }
+
+    public List<BeerQueryResponse> convertBeerDBToQueryResponse(List<BeerDB> beersDB){
+
+        List<BeerQueryResponse> beersResponse = new ArrayList<>();
+        for (BeerDB beerDB : beersDB) {
+            System.out.println(beerDB.get_id());
+            BeerQueryResponse newBeersUser = BeerQueryResponse.newBuilder()
+                    .setId(beerDB.get_id())
+                    .setName(beerDB.getName())
+                    .setDescription(beerDB.getDescription())
+                    .addAllIngredients(convertIngredientDBToQueryResponse(beerDB.getIngredients()))
+                    .addAllMethods(Arrays.asList(beerDB.getMethods()))
+                    .setImageUrl(beerDB.getImageUrl())
+                    .build();
+            System.out.println(newBeersUser);
+            beersResponse.add(newBeersUser);
+        }
+
+        return beersResponse;
+
+    }
 
     public List<IngredientDB> convertIngredientRequestToDB(List<IngredientBeerRequest> ingredientsRequest){
         List<IngredientDB> ingredientsDB = new ArrayList<>();
@@ -43,10 +79,9 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
     @Override
     public void createBeerDecomposition(CreateBeerRequest request, StreamObserver<CreateBeerResponse> responseObserver) {
         try{
-
             String[] methods = convertMethodsRequestToDB(request.getMethodsList());
             List<IngredientDB> ingredientsDB = convertIngredientRequestToDB(request.getIngredientsList());
-            BeerDB beerDB = new BeerDB(request.getName(), request.getDescription(), ingredientsDB, methods);
+            BeerDB beerDB = new BeerDB(request.getName(), request.getDescription(), ingredientsDB, methods, request.getImageUrl());
             beerRepository.insert(beerDB);
             CreateBeerResponse response = CreateBeerResponse.newBuilder()
                     .setIsSuccess(true)
@@ -66,14 +101,15 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
     public void queryBeersDecomposition(QueryBeersRequest request, StreamObserver<QueryBeersResponse> responseObserver) {
         try {
             List<BeerDB> beerDBS = beerRepository.findAll();
-
-            QueryBeersResponse response =QueryBeersResponse.newBuilder()
-                    .setIsSuccess(true)
+            QueryBeersResponse response = QueryBeersResponse.newBuilder()
+                    .addAllBeers(convertBeerDBToQueryResponse(beerDBS))
                     .build();
             responseObserver.onNext(response);
         } catch(Exception e){
+            System.out.println("GRPC Error");
+            System.out.println(e);
             QueryBeersResponse response =QueryBeersResponse.newBuilder()
-                    .setIsSuccess(false)
+                    .addAllBeers(null)
                     .build();
             responseObserver.onNext(response);
         }
@@ -88,13 +124,21 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
     public void queryBeerByIdDecomposition(QueryBeerByIdRequest request, StreamObserver<QueryBeerByIdResponse> responseObserver) {
         try{
             BeerDB beerDB = beerRepository.findBeerByID(request.getId());
+            BeerQueryResponse beer = BeerQueryResponse.newBuilder()
+                    .setId(beerDB.get_id())
+                    .setName(beerDB.getName())
+                    .setDescription(beerDB.getDescription())
+                    .addAllIngredients(convertIngredientDBToQueryResponse(beerDB.getIngredients()))
+                    .addAllMethods(Arrays.asList(beerDB.getMethods()))
+                    .setImageUrl(beerDB.getImageUrl())
+                    .build();
             QueryBeerByIdResponse response = QueryBeerByIdResponse.newBuilder()
-                    .setIsSuccess(true)
+                    .setBeer(beer)
                     .build();
             responseObserver.onNext(response);
         }catch (Exception e){
             QueryBeerByIdResponse response = QueryBeerByIdResponse.newBuilder()
-                    .setIsSuccess(false)
+                    .setBeer((BeerQueryResponse) null)
                     .build();
             responseObserver.onNext(response);
         }
@@ -106,7 +150,7 @@ public class BeerService extends BeerServiceGrpc.BeerServiceImplBase {
         try{
             String[] methods = convertMethodsRequestToDB(request.getMethodsList());
             List<IngredientDB> ingredientsDB = convertIngredientRequestToDB(request.getIngredientsList());
-            BeerDB beerDB = new BeerDB(request.getId(),request.getName(), request.getDescription(), ingredientsDB, methods);
+            BeerDB beerDB = new BeerDB(request.getId(),request.getName(), request.getDescription(), ingredientsDB, methods, request.getImageUrl());
             beerRepository.save(beerDB);
 
 

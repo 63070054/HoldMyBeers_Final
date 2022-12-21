@@ -16,5 +16,6 @@ public class CreateBeerCommand {
     private final String description;
     private final List<IngredientDB> ingredients;
     private final String[] methods;
+    private final String imageUrl;
 
 }

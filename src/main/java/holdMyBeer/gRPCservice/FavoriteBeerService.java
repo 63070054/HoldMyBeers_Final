@@ -1,4 +1,4 @@
-package holdMyBeer.service;
+package holdMyBeer.gRPCservice;
 
 import com.proto.prime.*;
 import holdMyBeer.database.pojo.BeerDB;

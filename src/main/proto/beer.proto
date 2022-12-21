@@ -21,10 +21,26 @@ message CreateBeerRequest {
   string description = 2;
   repeated IngredientBeerRequest ingredients = 3;
   repeated string methods = 4;
+  string imageUrl = 5;
 }
 
 message CreateBeerResponse {
   bool isSuccess = 1;
+}
+
+message IngredientQueryResponse {
+  string name = 1;
+  int32 quantity = 2;
+  string unit = 3;
+}
+
+message BeerQueryResponse {
+  string _id = 1;
+  string name = 2;
+  string description = 3;
+  repeated IngredientQueryResponse ingredients = 4;
+  repeated string methods = 5;
+  string imageUrl = 6;
 }
 
 message QueryBeerByIdRequest {
@@ -32,7 +48,7 @@ message QueryBeerByIdRequest {
 }
 
 message QueryBeerByIdResponse {
-  bool isSuccess = 1;
+  BeerQueryResponse beer = 1;
 }
 
 message QueryBeersRequest {
@@ -40,7 +56,7 @@ message QueryBeersRequest {
 }
 
 message QueryBeersResponse {
-  bool isSuccess = 1;
+  repeated BeerQueryResponse beers = 1;
 }
 
 message UpdateBeerRequest {
@@ -49,6 +65,7 @@ message UpdateBeerRequest {
   string description = 3;
   repeated IngredientBeerRequest ingredients = 4;
   repeated string methods = 5;
+  string imageUrl = 6;
 }
 
 message UpdateBeerResponse {

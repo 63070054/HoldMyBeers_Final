@@ -1,8 +1,8 @@
 package holdMyBeer.database.pojo;
 
 import lombok.Data;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-
 import java.io.Serializable;
 
 @Data

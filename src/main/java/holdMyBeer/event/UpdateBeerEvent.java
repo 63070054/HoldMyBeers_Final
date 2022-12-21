@@ -12,4 +12,5 @@ public class UpdateBeerEvent {
     private String description;
     private List<IngredientDB> ingredients;
     private String[] methods;
+    private String imageUrl;
 }

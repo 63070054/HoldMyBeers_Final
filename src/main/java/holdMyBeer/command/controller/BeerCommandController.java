@@ -54,6 +54,7 @@ public class BeerCommandController {
                         .setDescription(beer.getDescription())
                         .addAllIngredients(ingredientsGRPC)
                         .addAllMethods(Arrays.asList(beer.getMethods()))
+                        .setImageUrl(beer.getImageUrl())
                         .build();
                 beerServiceBlockingStub.createBeerDecomposition(request);
 
@@ -63,6 +64,7 @@ public class BeerCommandController {
                     .description(beer.getDescription())
                     .ingredients(beer.getIngredients())
                     .methods(beer.getMethods())
+                    .imageUrl(beer.getImageUrl())
                     .build();
                 commandGateway.sendAndWait(command);
                 return true;
@@ -83,6 +85,7 @@ public class BeerCommandController {
                     .setDescription(beer.getDescription())
                     .addAllIngredients(ingredientsGRPC)
                     .addAllMethods(Arrays.asList(beer.getMethods()))
+                    .setImageUrl(beer.getImageUrl())
                     .build();
             beerServiceBlockingStub.updateBeerDecomposition(request);
 
@@ -92,6 +95,7 @@ public class BeerCommandController {
                     .description(beer.getDescription())
                     .ingredients(beer.getIngredients())
                     .methods(beer.getMethods())
+                    .imageUrl(beer.getImageUrl())
                     .build();
             commandGateway.sendAndWait(command);
 

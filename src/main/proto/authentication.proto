@@ -29,6 +29,7 @@ message BeerUserRequest {
   string description = 3;
   repeated IngredientUserRequest ingredients = 4;
   repeated string methods = 5;
+  string imageUrl = 6;
 }
 
 message SignInRequest {

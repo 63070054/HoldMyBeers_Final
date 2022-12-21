@@ -12,5 +12,6 @@ public class CreateBeerRestModel {
     private String description;
     private List<IngredientDB> ingredients;
     private String[] methods;
+    private String imageUrl;
 
 }

@@ -34,7 +34,7 @@ public class AuthenticationCommandController {
         List<IngredientUserRequest> ingredientsRequest = new ArrayList<>();
         for (IngredientDB ingredient : ingredientsDB) {
             IngredientUserRequest newIngredient = IngredientUserRequest.newBuilder()
-                    .setId(ingredient.get_id())
+                    .setId(String.valueOf(ingredient.get_id()))
                     .setName(ingredient.getName())
                     .setQuantity(ingredient.getQuantity())
                     .setUnit(ingredient.getUnit())

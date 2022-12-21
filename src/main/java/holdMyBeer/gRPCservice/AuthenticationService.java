@@ -1,4 +1,4 @@
-package holdMyBeer.service;
+package holdMyBeer.gRPCservice;
 
 import com.proto.prime.*;
 import holdMyBeer.database.pojo.BeerDB;
@@ -41,22 +41,13 @@ public class AuthenticationService extends AuthenticationServiceGrpc.Authenticat
             beerDB.setDescription(beerUser.getDescription());
             beerDB.setIngredients(convertIngredientRequestToDB(beerUser.getIngredientsList()));
             beerDB.setMethods(beerUser.getMethodsList().toArray(new String[0]));
+            beerDB.setImageUrl(beerUser.getImageUrl());
             beersDB.add(beerDB);
         }
         return beersDB;
     }
 
-    public boolean createUser(SignInRequest request){
-        try {
-            return true;
-        } catch (Exception e){
-
-            return false;
-        }
-    }
-
     public boolean userExists(String _id){
-        System.out.println(userRepository.existsById(_id));
         return userRepository.existsById(_id);
     }
 

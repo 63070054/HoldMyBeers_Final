@@ -21,6 +21,7 @@ public class CreateBeerAggregate {
     private String description;
     private List<IngredientDB>  ingredients;
     private String[] methods;
+    private String imageUrl;
 
     public CreateBeerAggregate(){
 
@@ -40,5 +41,6 @@ public class CreateBeerAggregate {
        this.description = event.getDescription();
        this.ingredients = event.getIngredients();
        this.methods = event.getMethods();
+       this.imageUrl = event.getImageUrl();
    }
 }

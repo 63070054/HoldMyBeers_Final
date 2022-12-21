@@ -1,9 +1,9 @@
 package holdMyBeer.config;
 
 import com.mongodb.client.MongoClient;
-import holdMyBeer.service.AuthenticationService;
-import holdMyBeer.service.BeerService;
-import holdMyBeer.service.FavoriteBeerService;
+import holdMyBeer.gRPCservice.AuthenticationService;
+import holdMyBeer.gRPCservice.BeerService;
+import holdMyBeer.gRPCservice.FavoriteBeerService;
 import io.grpc.ServerBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
