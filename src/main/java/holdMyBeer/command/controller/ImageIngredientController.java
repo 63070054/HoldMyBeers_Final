@@ -11,13 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/image/ingerdient")
+@RequestMapping("/image/ingredient")
 public class ImageIngredientController {
     @Autowired
     private RabbitTemplate rabbitTemplate;
     @GetMapping("/{name}")
     public String queryImageIngerdient(@PathVariable String name) {
-        System.out.println("succress Publisher queryImageIngerdient: "+ name);
         String image = (String) rabbitTemplate.convertSendAndReceive("BeerExchanges", "sentImage", name);
 //        System.out.println(image);
         return image;

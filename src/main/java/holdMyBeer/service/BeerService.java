@@ -1,4 +1,4 @@
-package holdMyBeer.gRPCservice;
+package holdMyBeer.service;
 
 import com.google.protobuf.ProtocolStringList;
 import com.proto.prime.*;
